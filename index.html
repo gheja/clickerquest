@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui" />
+		<script type="text/javascript" src="consts.js"></script>
+		<script type="text/javascript" src="resources.js"></script>
+		<script type="text/javascript" src="profiler.js"></script>
+		<script type="text/javascript" src="lib.js"></script>
+		<script type="text/javascript" src="gfx.js"></script>
+		<script type="text/javascript" src="gfxbase.js"></script>
+		<script type="text/javascript" src="gfxbar.js"></script>
+		<script type="text/javascript" src="gfxbeatbar.js"></script>
+		<script type="text/javascript" src="gfxswitch.js"></script>
+		<script type="text/javascript" src="gfxmultiplier.js"></script>
+		<script type="text/javascript" src="screen.js"></script>
+		<script type="text/javascript" src="screenplace.js"></script>
+		<script type="text/javascript" src="game.js"></script>
+		<script type="text/javascript" src="main.js"></script>
+		<!-- insert minified javascript here -->
+		<style type="text/css">
+			html,
+			body
+			{
+				background: #110;
+			}
+			#errors
+			{
+				position: fixed;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				padding: 4px;
+				background: rgba(255, 0, 0, 0.5);
+				color: #fff;
+				max-height: 200px;
+				z-index: 10001;
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas2" width="200" height="100">profiler - canvas not supported :(</canvas>
+		<div id="errors"></div>
+	</body>
+</html>
