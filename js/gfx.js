@@ -6,10 +6,16 @@ class Gfx
 	{
 		this.finalCtx = null;
 		this.finalCanvas = null;
-		this.zoom = 1;
+		this.z = 1;
 		this._spritesheet = null;
 		this._spritesheetLoaded = false;
 		this._spriteStore = {};
+		this.foreground = "#fff";
+		this.background = "#000";
+		this.domLeft = 0;
+		this.domTop = 0;
+		this.domWidth = 0;
+		this.domHeight = 0;
 	}
 	
 	/** @private */
@@ -40,32 +46,23 @@ class Gfx
 		// 	// suggest the use of landscape mode
 		// }
 		
-		w = FINAL_WIDTH * zoom;
-		h = FINAL_HEIGHT * zoom;
+		this.domWidth = FINAL_WIDTH * zoom;
+		this.domHeight = FINAL_HEIGHT * zoom;
+		this.domLeft = Math.floor((window.innerWidth - this.domWidth) / 2);
+		this.domTop = Math.floor((window.innerHeight - this.domHeight) / 2);
 		
-		this.finalCanvas.width = w * pixel_ratio;
-		this.finalCanvas.height = h * pixel_ratio;
+		this.finalCanvas.width = this.domWidth * pixel_ratio;
+		this.finalCanvas.height = this.domHeight * pixel_ratio;
 		
-		this.finalCanvas.style.width = w;
-		this.finalCanvas.style.height = h;
-		
-		this.finalCanvas.style.left = (window.innerWidth - w) / 2;
-		this.finalCanvas.style.top = (window.innerHeight - h) / 2;
+		this.finalCanvas.style.width = this.domWidth;
+		this.finalCanvas.style.height = this.domHeight;
+		this.finalCanvas.style.left = this.domLeft;
+		this.finalCanvas.style.top = this.domTop;
 		
 		// smoothing is reset on canvas resize
 		fixCanvasContextSmoothing(this.finalCtx);
 		
-		this.zoom = zoom;
-	}
-	
-	get zoomLevel()
-	{
-		return this.zoom;
-	}
-	
-	set zoomLevel(x)
-	{
-		this.zoom = x;
+		this.z = zoom * pixel_ratio;
 	}
 	
 	onWindowResizeCallback()
@@ -75,26 +72,14 @@ class Gfx
 	
 	onSpritesheetLoadedCallback()
 	{
+		let a;
+		
 		console.log("Sprites loaded.");
 		
-		this.createSprite("beatbar_empty", 1, 1, 8, 8);
-		this.createSprite("beatbar_end", 10, 1, 8, 8);
-		this.createSprite("beatbar_beat", 19, 1, 8, 8);
-		this.createSprite("beatbar_beat_missed", 28, 1, 8, 8);
-		this.createSprite("beatbar_beat_matched", 37, 1, 8, 8);
-		
-		this.createSprite("bar_left", 1, 10, 2, 8);
-		this.createSprite("bar_full", 4, 10, 9, 8);
-		this.createSprite("bar_full_tip", 14, 10, 1, 8);
-		this.createSprite("bar_empty", 16, 10, 9, 8);
-		this.createSprite("bar_right", 26, 10, 2, 8);
-		
-		this.createSprite("multiplier_fixed", 1, 19, 8, 8);
-		this.createSprite("multiplier_current", 10, 19, 8, 8);
-		this.createSprite("multiplier_unlocked", 19, 19, 8, 8);
-		
-		this.createSprite("switch_off", 29, 10, 22, 8);
-		this.createSprite("switch_on", 52, 10, 22, 8);
+		for (a of GRAPHICS)
+		{
+			this.createSprite(...a);
+		}
 		
 		this._spritesheetLoaded = true;
 	}
@@ -121,7 +106,7 @@ class Gfx
 		}
 		
 		const a = this._spriteStore[name];
-		this.finalCtx.drawImage(this._spritesheet, a.x, a.y, a.width, a.height, x * this.zoom, y * this.zoom, a.width * this.zoom, a.height * this.zoom);
+		this.finalCtx.drawImage(this._spritesheet, a.x, a.y, a.width, a.height, x * this.z, y * this.z, a.width * this.z, a.height * this.z);
 	}
 	
 	drawSpriteElastic(name, x, y, width, height)
@@ -144,7 +129,7 @@ class Gfx
 				k = Math.min(a.width, width - i * a.width);
 				l = Math.min(a.height, height - j * a.height);
 				
-				this.finalCtx.drawImage(this._spritesheet, a.x, a.y, k, l, (x + i * a.width) * this.zoom, (y + j * a.height) * this.zoom, k * this.zoom, l * this.zoom);
+				this.finalCtx.drawImage(this._spritesheet, a.x, a.y, k, l, (x + i * a.width) * this.z, (y + j * a.height) * this.z, k * this.z, l * this.z);
 			}
 		}
 		
@@ -154,14 +139,15 @@ class Gfx
 	{
 		if (this._spritesheetLoaded)
 		{
-			this.finalCtx.fillStyle = "#042";
+			// this.finalCtx.fillStyle = "#042";
+			this.finalCtx.fillStyle = "#000";
 		}
 		else
 		{
 			this.finalCtx.fillStyle = "#300";
 		}
 		
-		this.finalCtx.fillRect(0, 0, FINAL_WIDTH * this.zoom, FINAL_HEIGHT * this.zoom);
+		this.finalCtx.fillRect(0, 0, FINAL_WIDTH * this.z, FINAL_HEIGHT * this.z);
 	}
 	
 	init()

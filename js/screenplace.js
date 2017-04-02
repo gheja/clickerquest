@@ -23,15 +23,16 @@ class ScreenPlace extends Screen2
 		this.switch3 = new GfxSwitch(this._gfx, 8, 136, true);
 	}
 	
-	draw()
+	tick()
 	{
 		this.a++;
 		
-		_profiler.start();
-		
-		this._gfx.clear();
-		
 		this.bar.value += 1;
+	}
+	
+	draw()
+	{
+		this._gfx.clear();
 		
 		this.beatbar.setBeats([ 8 - this.a % 8, 16 - this.a % 8, 24 - this.a % 8 ]);
 		
@@ -44,9 +45,5 @@ class ScreenPlace extends Screen2
 		this.switch2.draw();
 		this.switch3.draw();
 		this.multiplier.draw();
-		
-		_profiler.mark();
-		
-		_profiler.draw();
 	}
 }

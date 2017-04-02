@@ -209,6 +209,16 @@ function nvl(a, b)
 	return a;
 }
 
+function storageSet(key, value)
+{
+	localStorage.setItem(LOCAL_STORAGE_PREFIX + ":" + key, value);
+}
+
+function storageGet(key, defaultValue)
+{
+	return nvl(localStorage.getItem(LOCAL_STORAGE_PREFIX + ":" + key), defaultValue);
+}
+
 // window.onerror = _error;
 // DEBUG BEGIN
 function _error(s)

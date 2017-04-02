@@ -5,126 +5,111 @@ class Game
 	constructor()
 	{
 		this._gfx = new Gfx();
+		this.beater = new Beater();
+		this._nextFrame = 0;
+		this.screens = {};
+		this.screen = null;
+		this.nextScreenName = '';
+		this.ticks = 0;
 	}
 	
 	tick()
 	{
-		_requestAnimationFrame(this.tick.bind(this));
+		this.ticks++;
 		
+		if (this.ticks == 5000)
+		{
+			this.switchScreen('place');
+		}
+		
+		this.screen.tick();
+	}
+	
+	draw()
+	{
 		this.screen.draw();
+	}
+	
+	startLevel()
+	{
+		this.switchScreen('place');
+	}
+	
+	update()
+	{
+		_requestAnimationFrame(this.update.bind(this));
+		
+		// -- frame rate limit
+		const a = Date.now();
+		
+		if (a + 5 < this._nextFrameTime)
+		{
+			return;
+		}
+		
+		this._nextFrameTime = a + (1000 / FPS);
+		// --
+		
+		_profiler.start();
+		this.tick();
+		_profiler.mark();
+		this.draw();
+		_profiler.mark();
+		_profiler.draw();
 	}
 	
 	start()
 	{
-		this.tick();
+		this.nextFrame = 0;
+		this.update();
+	}
+	
+	switchScreen(name)
+	{
+		if (this.screen)
+		{
+			this.screen.leave();
+		}
+		
+		this.screen = this.screens[name];
+		
+		this.screen.enter();
+	}
+	
+	onClick(event)
+	{
+		this.beater.userBeat();
+		this.screen.click(Math.round((event.clientX - this._gfx.domLeft) / this._gfx.z), Math.round((event.clientY - this._gfx.domTop) / this._gfx.z));
+	}
+	
+	onMouseMove(event)
+	{
+		this.screen.mouseMove(Math.round((event.clientX - this._gfx.domLeft) / this._gfx.z), Math.round((event.clientY - this._gfx.domTop) / this._gfx.z));
 	}
 	
 	init()
 	{
-		this._gfx.init();
+		let i;
 		
-		this.screen = new ScreenPlace(this._gfx);
-		this.screen.init();
+		this.beater.init();
+		
+		this._gfx.init();
+		this._gfx.finalCanvas.addEventListener('mousedown', this.onClick.bind(this));
+		this._gfx.finalCanvas.addEventListener('mousemove', this.onMouseMove.bind(this));
+		
+		this.screens['splash'] = new ScreenSplash(this._gfx);
+		this.screens['splash'].beater = this.beater;
+		this.screens['calibration'] = new ScreenCalibration(this._gfx);
+		this.screens['calibration'].beater = this.beater;
+		this.screens['menu'] = new ScreenMenu(this._gfx);
+		this.screens['place'] = new ScreenPlace(this._gfx);
+		
+		for (i in this.screens)
+		{
+			this.screens[i].init();
+		}
+		
+		// this.switchScreen('calibration');
+		this.switchScreen('splash');
 	}
-}
-
-var _spritesheet;
-var _spritesheet_loaded = false;
-var _canvas;
-var _ctx;
-var _final_canvas;
-var _final_ctx;
-var _pixel_ratio;
-var _zoom;
-var _gfx_force_refresh = false;
-
-var _view_update_needed = false;
-var _frames_processed = 0;
-var _frames_processed_last = 0;
-
-var _touch_available = false;
-
-// DEBUG BEGIN
-var _profiler;
-// DEBUG END
-
-function viewUpdate()
-{
-}
-
-function gameTick()
-{
-}
-
-function gameDrawAll()
-{
-	if (!_spritesheet_loaded)
-	{
-		return;
-	}
-	
-// DEBUG BEGIN
-	_profiler.mark();
-// DEBUG END
-}
-
-function gameRestart()
-{
-}
-
-function controlUpdate()
-{
-/*
-	if (inputIsKeyActive())
-	{
-	}
-*/
-}
-
-function gameFirstTouch()
-{
-/*
-	var i;
-	
-	_synth = new Synth();
-	_synth.addSamples(SOUND_SAMPLES);
-	for (i=0; i<8; i++)
-	{
-		_synth.addSamples([[0,0.09,0.01,,0.64,0.3 + i * 0.05,,,,,,,,,,,,,1,,,,,0.5]]);
-	}
-	_synth.setSongs(SONGS);
-	_synth.playSong(0);
-*/
-}
-
-function gameUpdate()
-{
-// DEBUG BEGIN
-	_profiler.start();
-// DEBUG END
-	
-	drawTiles();
-	
-// DEBUG BEGIN
-	_profiler.draw();
-// DEBUG END
-	
-	_frames_processed++;
-}
-
-function gameInit()
-{
-/*
-	uiInit();
-	inputInit();
-	touchInit();
-	loadPalettes();
-*/
-	
-	if (!_touch_available)
-	{
-		gameFirstTouch();
-	}
-	
-	gameRestart();
 }
