@@ -37,6 +37,7 @@ const GRAPHICS = [
 	
 	[ "cover_splash", 1, 39, 288, 100 ],
 	[ "cover_place1", 1, 140, 288, 100 ],
+	[ "logo", 290, 171, 100, 40 ],
 	
 	[ "portrait_enemy1", 290, 140, 30, 30 ],
 	[ "portrait_enemy2", 321, 140, 30, 30 ],
