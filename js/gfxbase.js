@@ -76,4 +76,18 @@ class GfxBase
 		
 		this.clickCallback.call();
 	}
+	
+	drawDefault()
+	{
+		if (this.hidden)
+		{
+			return;
+		}
+		
+		this.draw();
+	}
+	
+	draw()
+	{
+	}
 }
