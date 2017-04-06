@@ -7,6 +7,7 @@
 /** @const @type {number} */ var FRAME_TIME_MS = 1000 / FPS;
 
 var LOCAL_STORAGE_PREFIX = "a";
+var FONT_NAME = "dunerevengmedium";
 
 var PLACES = [
 	{

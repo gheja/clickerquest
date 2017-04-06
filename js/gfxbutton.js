@@ -36,7 +36,7 @@ class GfxButton extends GfxBase
 		this._gfx.drawSprite("button_" + status + "_right", this.x + this.width - 4, this.y);
 		
 		this._gfx.finalCtx.fillStyle = this._gfx.foreground;
-		this._gfx.finalCtx.font = (16 * this._gfx.z) + "px savior";
+		this._gfx.finalCtx.font = (16 * this._gfx.z) + "px " + FONT_NAME;
 		this._gfx.finalCtx.textAlign = "center";
 		this._gfx.finalCtx.fillText(this.text, (this.x + Math.round(this.width / 2)) * this._gfx.z, (this.y + 11) * this._gfx.z);
 	}
