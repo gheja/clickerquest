@@ -6,6 +6,8 @@ class Gfx
 	{
 		this.finalCtx = null;
 		this.finalCanvas = null;
+		this.zoom = 1;
+		this.pixelRatio = 1;
 		this.z = 1;
 		this._spritesheet = null;
 		this._spritesheetLoaded = false;
@@ -62,6 +64,8 @@ class Gfx
 		// smoothing is reset on canvas resize
 		fixCanvasContextSmoothing(this.finalCtx);
 		
+		this.zoom = zoom;
+		this.pixelRatio = pixel_ratio;
 		this.z = zoom * pixel_ratio;
 	}
 	
