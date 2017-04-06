@@ -147,7 +147,6 @@ class Game
 			this.screens[i].init();
 		}
 		
-		// this.switchScreen('calibration');
 		this.switchScreen('splash');
 	}
 }
