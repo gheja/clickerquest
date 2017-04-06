@@ -110,6 +110,13 @@ class Gfx
 		}
 		
 		const a = this._spriteStore[name];
+		
+		if (a === null)
+		{
+			console.log("Gfx.drawSprite: ERROR: could not find sprite \"" + name + "\"");
+			return;
+		}
+		
 		this.finalCtx.drawImage(this._spritesheet, a.x, a.y, a.width, a.height, x * this.z, y * this.z, a.width * this.z, a.height * this.z);
 	}
 	
