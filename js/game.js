@@ -98,12 +98,27 @@ class Game
 		}
 		
 		this.beater.userBeat();
-		this.screen.click(Math.round((event.clientX - this._gfx.domLeft) / this._gfx.z), Math.round((event.clientY - this._gfx.domTop) / this._gfx.z));
+		this.screen.click(Math.round((event.clientX - this._gfx.domLeft) / this._gfx.zoom), Math.round((event.clientY - this._gfx.domTop) / this._gfx.zoom));
+		
+		if (event.preventDefault)
+		{
+			event.preventDefault();
+		}
+		
+		if (event.stopPropagation)
+		{
+			event.stopPropagation();
+		}
+	}
+	
+	onClickHtmlBody(event)
+	{
+		this.onClick({ clientX: -1, clientY: -1 });
 	}
 	
 	onMouseMove(event)
 	{
-		this.screen.mouseMove(Math.round((event.clientX - this._gfx.domLeft) / this._gfx.z), Math.round((event.clientY - this._gfx.domTop) / this._gfx.z));
+		this.screen.mouseMove(Math.round((event.clientX - this._gfx.domLeft) / this._gfx.zoom), Math.round((event.clientY - this._gfx.domTop) / this._gfx.zoom));
 	}
 	
 	init()
@@ -115,6 +130,7 @@ class Game
 		
 		this._gfx.init();
 		this._gfx.finalCanvas.addEventListener('mousedown', this.onClick.bind(this));
+		_body.addEventListener('mousedown', this.onClickHtmlBody.bind(this));
 		this._gfx.finalCanvas.addEventListener('mousemove', this.onMouseMove.bind(this));
 		
 		this.soundManager = new SoundManager();
