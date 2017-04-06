@@ -24,7 +24,7 @@ class Screen2
 	{
 	}
 	
-	clickDefault()
+	clickDefault(x, y)
 	{
 	}
 	
@@ -46,12 +46,26 @@ class Screen2
 		{
 			if (this.objects[i].checkAndDoClick(x, y))
 			{
+				// hide hover
+				this.objects[i].checkHover(-1, -1);
 				return true;
 			}
 		}
 		
-		this.clickDefault();
+		this.clickDefault(x, y);
 		
 		return false;
+	}
+	
+	draw()
+	{
+		let i;
+		
+		this._gfx.clear();
+		
+		for (i in this.objects)
+		{
+			this.objects[i].draw();
+		}
 	}
 }
