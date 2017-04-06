@@ -36,6 +36,28 @@ const GRAPHICS = [
 	[ "button_disabled_right", 68, 19, 4, 16 ],
 	
 	[ "cover_splash", 1, 39, 288, 100 ],
+	[ "cover_place1", 1, 140, 288, 100 ],
+	
+	[ "portrait_enemy1", 290, 140, 30, 30 ],
+	[ "portrait_enemy2", 321, 140, 30, 30 ],
+	[ "portrait_hero1", 352, 140, 30, 30 ],
+	[ "portrait_background", 383, 140, 30, 30 ],
+	[ "portrait_border", 414, 140, 30, 31 ],
+	
+	[ "bar2_full", 75, 10, 4, 8 ],
+	[ "bar2_full_tip", 80, 10, 1, 8 ],
+	[ "bar2_empty", 82, 10, 4, 8 ],
+	
+	[ "icon_health", 73, 19, 9, 9 ],
+	[ "icon_attack", 83, 19, 9, 9 ],
+	[ "icon_defense", 93, 19, 9, 9 ],
+	[ "icon_spell", 103, 19, 9, 9 ],
+	
+	[ "action_attack", 113, 19, 30, 9 ],
+	[ "action_defend", 144, 19, 30, 9 ],
+	[ "action_rest", 175, 19, 30, 9 ],
+	[ "action_heal", 206, 19, 30, 9 ],
+	[ "action_invalid", 237, 19, 30, 9 ],
 ];
 
 const SONGS = [
