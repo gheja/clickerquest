@@ -18,7 +18,7 @@ class GfxLabel extends GfxBase
 		this._gfx.finalCtx.fillStyle = this._gfx.foreground;
 		this._gfx.finalCtx.font = (16 * this._gfx.z) + "px " + FONT_NAME;
 		this._gfx.finalCtx.textAlign = this.align;
-		this._gfx.finalCtx.fillText(this.text, this.x * this._gfx.z, this.y * this._gfx.z);
+		this._gfx.finalCtx.fillText(this.text, Math.round(this.x * this._gfx.z), this.y * this._gfx.z);
 	}
 	
 	click()
