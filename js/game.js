@@ -11,17 +11,24 @@ class Game
 		this.screen = null;
 		this.nextScreenName = '';
 		this.ticks = 0;
+		this.soundManager = null;
+		this.firstClick = true;
+		this.startTime = 0;
+	}
+	
+	resetTime()
+	{
+		this.startTime = Date.now();
+	}
+	
+	getTime()
+	{
+		return Date.now() - this.startTime;
 	}
 	
 	tick()
 	{
 		this.ticks++;
-		
-		if (this.ticks == 5000)
-		{
-			this.switchScreen('place');
-		}
-		
 		this.screen.tick();
 	}
 	
@@ -62,6 +69,12 @@ class Game
 	{
 		this.nextFrame = 0;
 		this.update();
+		this.soundManager.load(this.onSoundManagerLoaded.bind(this));
+	}
+	
+	onSoundManagerLoaded()
+	{
+		this.screens['splash'].phase = 1;
 	}
 	
 	switchScreen(name)
@@ -78,6 +91,12 @@ class Game
 	
 	onClick(event)
 	{
+		if (this.firstClick)
+		{
+			this.firstClick = false;
+			this.soundManager.start();
+		}
+		
 		this.beater.userBeat();
 		this.screen.click(Math.round((event.clientX - this._gfx.domLeft) / this._gfx.z), Math.round((event.clientY - this._gfx.domTop) / this._gfx.z));
 	}
@@ -91,11 +110,14 @@ class Game
 	{
 		let i;
 		
+		this.resetTime();
 		this.beater.init();
 		
 		this._gfx.init();
 		this._gfx.finalCanvas.addEventListener('mousedown', this.onClick.bind(this));
 		this._gfx.finalCanvas.addEventListener('mousemove', this.onMouseMove.bind(this));
+		
+		this.soundManager = new SoundManager();
 		
 		this.screens['splash'] = new ScreenSplash(this._gfx);
 		this.screens['splash'].beater = this.beater;

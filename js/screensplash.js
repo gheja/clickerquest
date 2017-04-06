@@ -13,20 +13,23 @@ class ScreenSplash extends Screen2
 	
 	clickDefault()
 	{
-		if (this.beater.isCalibrated)
+		if (this.phase == 1)
 		{
-			_game.switchScreen('menu');
-		}
-		else
-		{
-			_game.switchScreen('calibration');
+			if (this.beater.isCalibrated)
+			{
+				_game.switchScreen('menu');
+			}
+			else
+			{
+				_game.switchScreen('calibration');
+			}
 		}
 	}
 	
 	init()
 	{
-		this.cover = new GfxCover(this._gfx, "splash", 0, 0);
-		this.label = new GfxLabel(this._gfx, 144, 140, "center", "Loading...");
+		this.cover = new GfxImage(this._gfx, "cover_splash", 0, 32);
+		this.label = new GfxLabel(this._gfx, 144, 180, "center", "Loading...");
 	}
 	
 	tick()
@@ -35,11 +38,6 @@ class ScreenSplash extends Screen2
 		
 		if (this.phase == 0)
 		{
-			if (this.ticks == 15)
-			{
-				this.phase = 1;
-				this.ticks = 0;
-			}
 		}
 		else if (this.phase == 1)
 		{

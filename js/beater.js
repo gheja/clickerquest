@@ -14,6 +14,8 @@ class Beater
 		this.gfxCorrection = 0;
 		this.isStable = false;
 		this.isCalibrated = false;
+		this.beatStreak = 0;
+		this.lastBeatStatus = "none";
 	}
 	
 	reset()
@@ -23,6 +25,14 @@ class Beater
 		this.differenceAverage = 1000;
 		this.differenceDeviation = 1000;
 		this.isStable = false;
+		this.beatStreak = 0;
+		this.lastBeatStatus = "none";
+	}
+	
+	resetCorrections()
+	{
+		this.soundCorrection = 0;
+		this.gfxCorrection = 0;
 	}
 	
 	update()
@@ -66,7 +76,7 @@ class Beater
 			this.isStable = false;
 		}
 		
-		console.log("Last difference: " + this.lastDifferences[this.lastDifferences.length - 1] + ", average: " + this.differenceAverage + ", deviation: " + this.differenceDeviation + ", stable: " + (this.isStable ? "yes" : "no"));
+//		console.log("Last difference: " + this.lastDifferences[this.lastDifferences.length - 1] + ", average: " + this.differenceAverage + ", deviation: " + this.differenceDeviation + ", stable: " + (this.isStable ? "yes" : "no"));
 	}
 	
 	saveSoundCorrection()
@@ -88,9 +98,9 @@ class Beater
 	
 	load()
 	{
-		this.soundCorrection = storageGet('beater.soundCorrection', 0);
-		this.gfxCorrection = storageGet('beater.gfxCorrection', 0);
-		this.isCalibrated = storageGet('beater.isCalibrated', false);
+		this.soundCorrection = Number.parseFloat(storageGet('beater.soundCorrection', 0));
+		this.gfxCorrection = Number.parseFloat(storageGet('beater.gfxCorrection', 0));
+		this.isCalibrated = storageGet('beater.isCalibrated', "false") == "true";
 	}
 	
 	init()
@@ -100,7 +110,25 @@ class Beater
 	
 	addBeat(t)
 	{
+//		console.log("add beat: " + t);
 		this.beats.push(t);
+	}
+	
+	celanup()
+	{
+		// TODO: test
+		
+		let i, t;
+		
+		t = _game.getTime() - 1000;
+		
+		for (i=this.beats.length - 1; i>= 0; i--)
+		{
+			if (this.beats[i] < t)
+			{
+				delete(this.beats[i]);
+			}
+		}
 	}
 	
 	getNearestBeat(t)
@@ -124,10 +152,25 @@ class Beater
 	
 	userBeat()
 	{
-		let a;
+		let a, t;
 		
-		a = this.getNearestBeat(Date.now());
-		console.log(a);
+		t = _game.getTime() - this.soundCorrection;
+		
+		a = this.getNearestBeat(t);
+		console.log("user beat: " + t + " (" + Math.abs(a) + " " + (a < 0 ? "earlier" : "later") + ")");
+		
+		if (Math.abs(a) < 100)
+		{
+			this.beatStreak++;
+			this.lastBeatStatus = "matched";
+			console.log("* match *");
+		}
+		else
+		{
+			this.beatStreak = 0;
+			this.lastBeatStatus = "matched";
+		}
+		
 		if (a == 5000)
 		{
 			return;

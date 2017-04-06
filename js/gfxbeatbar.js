@@ -17,21 +17,37 @@ class GfxBeatbar extends GfxBase
 		this._beats = a;
 	}
 	
+	setBeatsFrom(beater, now)
+	{
+		let beat;
+		
+		this._beats.length = 0;
+		for (beat of beater.beats)
+		{
+			this._beats.push(beat - now);
+		}
+	}
+	
 	draw()
 	{
+		let a;
+		
 		this._gfx.drawSpriteElastic("beatbar_empty", this.x, this.y, this.width - 8, 8);
 		this._gfx.drawSprite("beatbar_end", this.x + this.width - 8, this.y);
-		for (const a of this._beats)
+		for (a of this._beats)
 		{
+			a = a - _game.beater.soundCorrection - _game.beater.gfxCorrection;
+			a = a / 15;
+			
 			if (a > 0)
 			{
-				this._gfx.drawSprite("beatbar_beat", this.x + this.width - 8 - a * 2, this.y);
+				this._gfx.drawSprite("beatbar_beat", this.x + this.width - 8 - a, this.y);
 			}
-			else if (a == 0)
+			else if (a > -5)
 			{
-				 if (this.status == "normal")
+//				if (this.status == "normal")
 				{
-					this._gfx.drawSprite("beatbar_beat", this.x + this.width - 8 - a * 2, this.y);
+					this._gfx.drawSprite("beatbar_beat", this.x + this.width - 8, this.y);
 				}
 			}
 		}
@@ -42,7 +58,7 @@ class GfxBeatbar extends GfxBase
 		}
 		else if (this.status == "matched")
 		{
-			this._gfx.drawSprite("beatbar_beat_matched", this.x + this.width - 8, this.y);
+//			this._gfx.drawSprite("beatbar_beat_matched", this.x + this.width - 8, this.y);
 		}
 	}
 }

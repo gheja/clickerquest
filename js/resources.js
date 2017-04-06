@@ -37,3 +37,7 @@ const GRAPHICS = [
 	
 	[ "cover_splash", 1, 39, 288, 100 ],
 ];
+
+const SONGS = [
+	"calibration_tone_4.mp3"
+];
