@@ -11,28 +11,38 @@ class ScreenMenu extends Screen2
 	{
 	}
 	
+	clickStartGame()
+	{
+		_game.startLevel();
+	}
+	
+	clickCalibration()
+	{
+		_game.switchScreen('calibration');
+	}
+	
+	clickCredits()
+	{
+	}
+	
+	enter()
+	{
+		_game.soundManager.switchMusic(0);
+	}
+	
 	init()
 	{
-		this.objects["cover"] = new GfxCover(this._gfx, "splash", 0, 0);
-		this.objects["button1"] = new GfxButton(this._gfx, 100, 140, 100, "Start game", _game.startLevel.bind(_game));
-		this.objects["button2"] = new GfxButton(this._gfx, 100, 160, 100, "Calibration");
-		this.objects["button3"] = new GfxButton(this._gfx, 100, 180, 100, "Credits");
-//		this.objects["label"] = new GfxButton(this._gfx, 100, 180, "");
+		this.objects["cover"] = new GfxImage(this._gfx, "cover_splash", 0, 32);
+		this.objects["beatbar"] = new GfxBeatbar(this._gfx, 8, 8);
+		this.objects["bar"] = new GfxBar(this._gfx, 108, 8, 172);
+		this.objects["button1"] = new GfxButton(this._gfx, 100, 160, 100, "Start game", this.clickStartGame.bind(this));
+		this.objects["button2"] = new GfxButton(this._gfx, 100, 180, 100, "Calibration", this.clickCalibration.bind(this));
+		this.objects["button3"] = new GfxButton(this._gfx, 100, 200, 100, "Credits", this.clickCredits.bind(this));
+		this.objects["button4"] = new GfxButton(this._gfx, 100, 230, 100, "Reset progress", this.clickCredits.bind(this));
 	}
 	
 	tick()
 	{
-	}
-	
-	draw()
-	{
-		let i;
-		
-		this._gfx.clear();
-		
-		for (i in this.objects)
-		{
-			this.objects[i].draw();
-		}
+		this.objects["beatbar"].setBeatsFrom(_game.beater, _game.getTime());
 	}
 }
