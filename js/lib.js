@@ -219,6 +219,23 @@ function storageGet(key, defaultValue)
 	return nvl(localStorage.getItem(LOCAL_STORAGE_PREFIX + ":" + key), defaultValue);
 }
 
+function float32concat(first, second)
+{
+	let result = new Float32Array(first.length + second.length);
+	
+	result.set(first);
+	result.set(second, first.length);
+	
+	return result;
+}
+
+function float32trim(input, length)
+{
+	let result = new Float32Array(input, 0, length);
+	
+	return result;
+}
+
 // window.onerror = _error;
 // DEBUG BEGIN
 function _error(s)
