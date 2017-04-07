@@ -2,9 +2,8 @@
 
 class Screen2
 {
-	constructor(gfx)
+	constructor()
 	{
-		this._gfx = gfx;
 		this.objects = {};
 	}
 	
@@ -61,7 +60,7 @@ class Screen2
 	{
 		let i;
 		
-		this._gfx.clear();
+		_gfx.clear();
 		
 		for (i in this.objects)
 		{

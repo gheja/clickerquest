@@ -3,6 +3,9 @@
 let _game = new Game();
 let _profiler;
 let _body;
+let _gfx;
+let _soundManager;
+let _beater;
 
 function init()
 {

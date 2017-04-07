@@ -2,9 +2,8 @@
 
 class GfxBase
 {
-	constructor(gfx, x, y, width, height)
+	constructor(x, y, width, height)
 	{
-		this._gfx = gfx;
 		this.x = x;
 		this.y = y;
 		this.width = width;

@@ -4,14 +4,11 @@ class Game
 {
 	constructor()
 	{
-		this._gfx = new Gfx();
-		this.beater = new Beater();
 		this._nextFrame = 0;
 		this.screens = {};
 		this.screen = null;
 		this.nextScreenName = '';
 		this.ticks = 0;
-		this.soundManager = null;
 		this.firstClick = true;
 		this.startTime = 0;
 	}
@@ -69,7 +66,7 @@ class Game
 	{
 		this.nextFrame = 0;
 		this.update();
-		this.soundManager.load(this.onSoundManagerLoaded.bind(this));
+		_soundManager.load(this.onSoundManagerLoaded.bind(this));
 	}
 	
 	onSoundManagerLoaded()
@@ -94,11 +91,11 @@ class Game
 		if (this.firstClick)
 		{
 			this.firstClick = false;
-			this.soundManager.start();
+			_soundManager.start();
 		}
 		
-		this.beater.userBeat();
-		this.screen.click(Math.round((event.clientX - this._gfx.domLeft) / this._gfx.zoom), Math.round((event.clientY - this._gfx.domTop) / this._gfx.zoom));
+		_beater.userBeat();
+		this.screen.click(Math.round((event.clientX - _gfx.domLeft) / _gfx.zoom), Math.round((event.clientY - _gfx.domTop) / _gfx.zoom));
 		
 		if (event.preventDefault)
 		{
@@ -111,17 +108,17 @@ class Game
 		}
 	}
 	
-	addHeaderObjects(objects, gfx)
+	addHeaderObjects(objects)
 	{
-		objects["cover"] = new GfxImage(gfx, "cover_splash", 0, 32);
-		objects["logo"] = new GfxImage(gfx, "logo", 94, 32);
+		objects["cover"] = new GfxImage("cover_splash", 0, 32);
+		objects["logo"] = new GfxImage("logo", 94, 32);
 	}
 	
-	addBeatObjects(objects, gfx)
+	addBeatObjects(objects)
 	{
-		objects["beatbar"] = new GfxBeatbar(gfx, 8, 8);
-		objects["bar"] = new GfxBar(gfx, 108, 8, 172);
-		objects["multiplier"] = new GfxMultiplier(gfx, 108, 20);
+		objects["beatbar"] = new GfxBeatbar(8, 8);
+		objects["bar"] = new GfxBar(108, 8, 172);
+		objects["multiplier"] = new GfxMultiplier(108, 20);
 		objects["multiplier"].max = 4;
 	}
 	
@@ -132,7 +129,7 @@ class Game
 	
 	onMouseMove(event)
 	{
-		this.screen.mouseMove(Math.round((event.clientX - this._gfx.domLeft) / this._gfx.zoom), Math.round((event.clientY - this._gfx.domTop) / this._gfx.zoom));
+		this.screen.mouseMove(Math.round((event.clientX - _gfx.domLeft) / _gfx.zoom), Math.round((event.clientY - _gfx.domTop) / _gfx.zoom));
 	}
 	
 	init()
@@ -140,21 +137,23 @@ class Game
 		let i;
 		
 		this.resetTime();
-		this.beater.init();
 		
-		this._gfx.init();
-		this._gfx.finalCanvas.addEventListener('mousedown', this.onClick.bind(this));
+		_gfx = new Gfx();
+		_gfx.init();
+		_gfx.finalCanvas.addEventListener('mousedown', this.onClick.bind(this));
+		_gfx.finalCanvas.addEventListener('mousemove', this.onMouseMove.bind(this));
+		
 		_body.addEventListener('mousedown', this.onClickHtmlBody.bind(this));
-		this._gfx.finalCanvas.addEventListener('mousemove', this.onMouseMove.bind(this));
 		
-		this.soundManager = new SoundManager();
+		_beater = new Beater();
+		_beater.init();
 		
-		this.screens['splash'] = new ScreenSplash(this._gfx);
-		this.screens['splash'].beater = this.beater;
-		this.screens['calibration'] = new ScreenCalibration(this._gfx);
-		this.screens['calibration'].beater = this.beater;
-		this.screens['menu'] = new ScreenMenu(this._gfx);
-		this.screens['place'] = new ScreenPlace(this._gfx);
+		_soundManager = new SoundManager();
+		
+		this.screens['splash'] = new ScreenSplash();
+		this.screens['calibration'] = new ScreenCalibration();
+		this.screens['menu'] = new ScreenMenu();
+		this.screens['place'] = new ScreenPlace();
 		
 		for (i in this.screens)
 		{

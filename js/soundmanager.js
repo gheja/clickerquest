@@ -152,7 +152,7 @@ class SoundManager
 				if (a !== null)
 				{
 					c = this.startTime + (this.beatLookAheadSamplePosition + a) / 44100 * 1000;
-					_game.beater.addBeat(c);
+					_beater.addBeat(c);
 //					console.log("beat: " + c);
 				}
 				

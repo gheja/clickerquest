@@ -2,9 +2,9 @@
 
 class ScreenMenu extends Screen2
 {
-	constructor(a)
+	constructor()
 	{
-		super(a);
+		super();
 	}
 	
 	clickDefault()
@@ -27,23 +27,23 @@ class ScreenMenu extends Screen2
 	
 	enter()
 	{
-		_game.soundManager.switchMusic(0);
+		_soundManager.switchMusic(0);
 	}
 	
 	init()
 	{
-		_game.addHeaderObjects(this.objects, this._gfx);
-		_game.addBeatObjects(this.objects, this._gfx);
+		_game.addHeaderObjects(this.objects);
+		_game.addBeatObjects(this.objects);
 		
-		this.objects["button1"] = new GfxButton(this._gfx, 100, 160, 100, "Start game", this.clickStartGame.bind(this));
-		this.objects["button2"] = new GfxButton(this._gfx, 100, 180, 100, "Calibration", this.clickCalibration.bind(this));
-		this.objects["button3"] = new GfxButton(this._gfx, 100, 200, 100, "Credits", this.clickCredits.bind(this));
-		this.objects["button4"] = new GfxButton(this._gfx, 100, 230, 100, "Reset progress", this.clickCredits.bind(this));
+		this.objects["button1"] = new GfxButton(100, 160, 100, "Start game", this.clickStartGame.bind(this));
+		this.objects["button2"] = new GfxButton(100, 180, 100, "Calibration", this.clickCalibration.bind(this));
+		this.objects["button3"] = new GfxButton(100, 200, 100, "Credits", this.clickCredits.bind(this));
+		this.objects["button4"] = new GfxButton(100, 230, 100, "Reset progress", this.clickCredits.bind(this));
 	}
 	
 	tick()
 	{
-		this.objects["beatbar"].setBeatsFrom(_game.beater, _game.getTime());
+		this.objects["beatbar"].setBeatsFromBeater(_game.getTime());
 		this.objects["logo"].y = Math.floor(30 + Math.pow(Math.cos(_game.ticks * 0.03), 4) * 5);
 	}
 }

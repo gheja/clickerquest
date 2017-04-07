@@ -2,20 +2,18 @@
 
 class ScreenSplash extends Screen2
 {
-	constructor(a)
+	constructor()
 	{
-		super(a);
-		
+		super();
 		this.ticks = 0;
 		this.phase = 0;
-		this.beater = null;
 	}
 	
 	clickDefault()
 	{
 		if (this.phase == 1)
 		{
-			if (this.beater.isCalibrated)
+			if (_beater.isCalibrated)
 			{
 				_game.switchScreen('menu');
 			}
@@ -28,9 +26,9 @@ class ScreenSplash extends Screen2
 	
 	init()
 	{
-		this.cover = new GfxImage(this._gfx, "cover_splash", 0, 32);
-		this.logo = new GfxImage(this._gfx, "logo", 94, 32);
-		this.label = new GfxLabel(this._gfx, 144, 180, "center", "Loading...");
+		this.cover = new GfxImage("cover_splash", 0, 32);
+		this.logo = new GfxImage("logo", 94, 32);
+		this.label = new GfxLabel(144, 180, "center", "Loading...");
 	}
 	
 	tick()
@@ -57,7 +55,7 @@ class ScreenSplash extends Screen2
 	
 	draw()
 	{
-		this._gfx.clear();
+		_gfx.clear();
 		
 		this.cover.draw();
 		this.logo.draw();

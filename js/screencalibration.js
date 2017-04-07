@@ -2,14 +2,13 @@
 
 class ScreenCalibration extends Screen2
 {
-	constructor(a)
+	constructor()
 	{
-		super(a);
+		super();
 		
 		this.a = 0;
 		this.ticks = 0;
 		this.phase = 0;
-		this.beater = null;
 		this.finished = false;
 	}
 	
@@ -17,22 +16,22 @@ class ScreenCalibration extends Screen2
 	{
 		this.phase = 0;
 		this.ticks = 0;
-		this.beater.reset();
-		this.beater.resetCorrections();
-		this.beater.addBeat(_game.getTime() + FRAME_TIME_MS * 20);
-		this.beater.addBeat(_game.getTime() + FRAME_TIME_MS * 60);
+		_beater.reset();
+		_beater.resetCorrections();
+		_beater.addBeat(_game.getTime() + FRAME_TIME_MS * 20);
+		_beater.addBeat(_game.getTime() + FRAME_TIME_MS * 60);
 		this.finished = false;
 		this.objects["beatbar"].hidden = false;
 		this.objects["label"].text = "Click when the box reaches the middle.";
-		_game.soundManager.switchMusic(null);
+		_soundManager.switchMusic(null);
 	}
 	
 	init()
 	{
-		_game.addHeaderObjects(this.objects, this._gfx);
+		_game.addHeaderObjects(this.objects);
 		
-		this.objects["beatbar"] = new GfxCalibrationbar(this._gfx, (288 - 120) / 2, 150, 120);
-		this.objects["label"] = new GfxLabel(this._gfx, 144, 180, "center", "...");
+		this.objects["beatbar"] = new GfxCalibrationbar((288 - 120) / 2, 150, 120);
+		this.objects["label"] = new GfxLabel(144, 180, "center", "...");
 	}
 	
 	tick()
@@ -48,16 +47,16 @@ class ScreenCalibration extends Screen2
 			
 			if (this.ticks % 80 == 0)
 			{
-				this.beater.addBeat(_game.getTime() + FRAME_TIME_MS * 20);
-				this.beater.addBeat(_game.getTime() + FRAME_TIME_MS * 60);
+				_beater.addBeat(_game.getTime() + FRAME_TIME_MS * 20);
+				_beater.addBeat(_game.getTime() + FRAME_TIME_MS * 60);
 			}
 			
 			this.objects["beatbar"].pos = Math.cos(this.ticks / 80 * (2 * Math.PI));
 			
-			if (this.beater.isStable)
+			if (_beater.isStable)
 			{
 				this.objects["beatbar"].hidden = true;
-				this.beater.saveGfxCorrection();
+				_beater.saveGfxCorrection();
 				this.objects["label"].text = "Thanks!";
 				this.phase = 1;
 				this.ticks = 0;
@@ -67,11 +66,11 @@ class ScreenCalibration extends Screen2
 		{
 			if (this.ticks == 60)
 			{
-				this.beater.reset();
+				_beater.reset();
 				this.objects["label"].text = "And now click when you hear the tone.";
 				this.phase = 2;
 				this.ticks = 0;
-				_game.soundManager.switchMusic(0);
+				_soundManager.switchMusic(0);
 			}
 		}
 		else if (this.phase == 2)
@@ -80,12 +79,12 @@ class ScreenCalibration extends Screen2
 			{
 				this.objects["label"].text = "Just a few more times.";
 			}
-			if (this.beater.isStable)
+			if (_beater.isStable)
 			{
-				this.beater.saveSoundCorrection();
-				this.beater.save();
+				_beater.saveSoundCorrection();
+				_beater.save();
 				this.objects["label"].text = "Thanks, we are good to go!";
-				_game.soundManager.switchMusic(null);
+				_soundManager.switchMusic(null);
 				this.phase = 3;
 				this.ticks = 0;
 			}

@@ -7,7 +7,6 @@ class GfxCalibrationbar extends GfxBase
 	{
 		super(gfx,  nvl(x, 0), nvl(y, 0), nvl(width, 96), 8);
 		
-		this._gfx = gfx;
 		this.a = 0;
 		this.pos = 0;
 	}
@@ -20,8 +19,8 @@ class GfxCalibrationbar extends GfxBase
 	
 	draw()
 	{
-		this._gfx.drawSpriteElastic("beatbar_empty", this.x, this.y, this.width, 8);
-		this._gfx.drawSprite("beatbar_end", this.x + this.width / 2 - 4, this.y);
-		this._gfx.drawSprite("beatbar_beat", this.x + (this.width / 2 - 4)+ this.pos * (this.width / 2 - 4), this.y);
+		_gfx.drawSpriteElastic("beatbar_empty", this.x, this.y, this.width, 8);
+		_gfx.drawSprite("beatbar_end", this.x + this.width / 2 - 4, this.y);
+		_gfx.drawSprite("beatbar_beat", this.x + (this.width / 2 - 4)+ this.pos * (this.width / 2 - 4), this.y);
 	}
 }

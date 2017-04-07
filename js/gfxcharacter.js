@@ -2,34 +2,32 @@
 
 class GfxCharacter extends GfxBase
 {
-	constructor(gfx, n, characterObj)
+	constructor(n, characterObj)
 	{
 		let x, y;
 		
 		x = (n % 3) * 96 + 2;
 		y = Math.floor(n / 3) * 40 + 150;
 		
-		super(gfx, x, y, 96, 40);
+		super(x, y, 96, 40);
 		
 		this.x = x;
 		this.y = y;
 		
-		this._gfx = gfx;
-		
 		this.characterObj = characterObj;
 		
 		this.gfxObjects = {};
-		this.gfxObjects["portrait"] = new GfxImage(this._gfx, "portrait_hero1");
-		this.gfxObjects["border"] = new GfxImage(this._gfx, "portrait_border");
-		this.gfxObjects["icon_health"] = new GfxImage(this._gfx, "icon_health");
-		this.gfxObjects["icon_attack"] = new GfxImage(this._gfx, "icon_attack");
-		this.gfxObjects["icon_defense"] = new GfxImage(this._gfx, "icon_defense");
-		this.gfxObjects["bar_health"] = new GfxBar(this._gfx, 0, 0, 50, 7, 0, 0, 2);
-		this.gfxObjects["bar_attack"] = new GfxBar(this._gfx, 0, 0, 50, 3, 0, 0, 3);
-		this.gfxObjects["bar_defense"] = new GfxBar(this._gfx, 0, 0, 50, 3, 0, 0, 3);
-		this.gfxObjects["action"] = new GfxButtonswitch(this._gfx, 0, 0, this.onCycleAction.bind(this));
-		this.gfxObjects["label_attack"] = new GfxLabel(this._gfx, 0, 0, 'left', '1-2');
-		this.gfxObjects["label_defense"] = new GfxLabel(this._gfx, 0, 0, 'left', '1-2');
+		this.gfxObjects["portrait"] = new GfxImage("portrait_hero1");
+		this.gfxObjects["border"] = new GfxImage("portrait_border");
+		this.gfxObjects["icon_health"] = new GfxImage("icon_health");
+		this.gfxObjects["icon_attack"] = new GfxImage("icon_attack");
+		this.gfxObjects["icon_defense"] = new GfxImage("icon_defense");
+		this.gfxObjects["bar_health"] = new GfxBar(0, 0, 50, 7, 0, 0, 2);
+		this.gfxObjects["bar_attack"] = new GfxBar(0, 0, 50, 3, 0, 0, 3);
+		this.gfxObjects["bar_defense"] = new GfxBar(0, 0, 50, 3, 0, 0, 3);
+		this.gfxObjects["action"] = new GfxButtonswitch(0, 0, this.onCycleAction.bind(this));
+		this.gfxObjects["label_attack"] = new GfxLabel(0, 0, 'left', '1-2');
+		this.gfxObjects["label_defense"] = new GfxLabel(0, 0, 'left', '1-2');
 	}
 	
 	onCycleAction()
