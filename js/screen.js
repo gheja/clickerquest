@@ -65,7 +65,10 @@ class Screen2
 		
 		for (i in this.objects)
 		{
-			this.objects[i].draw();
+			if (this.objects[i].hidden == false)
+			{
+				this.objects[i].draw();
+			}
 		}
 	}
 }

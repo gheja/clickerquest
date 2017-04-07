@@ -12,6 +12,7 @@ class GfxBase
 		this.clickCallback = null;
 		this.clickable = false;
 		this.isMouseOver = false;
+		this.hidden = false;
 	}
 	
 	checkRectangle(x, y)
