@@ -48,6 +48,7 @@ class ScreenPlace extends Screen2
 		this.objects["button_inventory"].disabled = true;
 		this.objects["button_map"].disabled = true;
 		
+		this.objects["map_progress"] = new GfxBar(2, 134, 286, 8, 100, 70);
 		
 		this.hero1 = new ObjCharacter();
 		this.enemy = new ObjCharacter();
