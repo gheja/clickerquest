@@ -27,8 +27,10 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["bar_defense"] = new GfxBar(0, 0, 50, 3, 0, 0, 2);
 		this.gfxObjects["bar_xp"] = new GfxBar(0, 0, 60, 2, 0, 0, 2);
 		this.gfxObjects["action"] = new GfxButtonswitch(0, 0, this.onCycleAction.bind(this));
+		this.gfxObjects["label_health"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_attack"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_defense"] = new GfxLabel(0, 0, 'left', '1-2');
+		this.gfxObjects["label_xp"] = new GfxLabel(0, 0, 'left', 'Level 17');
 	}
 	
 	onCycleAction()
@@ -45,35 +47,54 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["portrait"].y = this.y;
 		this.gfxObjects["border"].x = this.x;
 		this.gfxObjects["border"].y = this.y;
+		this.gfxObjects["label_xp"].x = this.x + 32;
+		this.gfxObjects["label_xp"].y = this.y + 5;
+		this.gfxObjects["bar_xp"].x = this.x + 32;
+		this.gfxObjects["bar_xp"].y = this.y + 6;
 		this.gfxObjects["icon_health"].x = this.x + 32;
-		this.gfxObjects["icon_health"].y = this.y + 0;
+		this.gfxObjects["icon_health"].y = this.y + 10;
+		this.gfxObjects["label_health"].x = this.x + 42;
+		this.gfxObjects["label_health"].y = this.y + 15;
 		this.gfxObjects["bar_health"].x = this.x + 42;
-		this.gfxObjects["bar_health"].y = this.y + 1;
+		this.gfxObjects["bar_health"].y = this.y + 16;
 		this.gfxObjects["icon_attack"].x = this.x + 32;
-		this.gfxObjects["icon_attack"].y = this.y + 11;
-		this.gfxObjects["bar_attack"].x = this.x + 42;
-		this.gfxObjects["bar_attack"].y = this.y + 17;
+		this.gfxObjects["icon_attack"].y = this.y + 21;
 		this.gfxObjects["label_attack"].x = this.x + 42;
-		this.gfxObjects["label_attack"].y = this.y + 16;
+		this.gfxObjects["label_attack"].y = this.y + 26;
+		this.gfxObjects["bar_attack"].x = this.x + 42;
+		this.gfxObjects["bar_attack"].y = this.y + 27;
 		this.gfxObjects["icon_defense"].x = this.x + 32;
-		this.gfxObjects["icon_defense"].y = this.y + 22;
-		this.gfxObjects["bar_defense"].x = this.x + 42;
-		this.gfxObjects["bar_defense"].y = this.y + 28;
+		this.gfxObjects["icon_defense"].y = this.y + 32;
 		this.gfxObjects["label_defense"].x = this.x + 42;
-		this.gfxObjects["label_defense"].y = this.y + 27;
+		this.gfxObjects["label_defense"].y = this.y + 37;
+		this.gfxObjects["bar_defense"].x = this.x + 42;
+		this.gfxObjects["bar_defense"].y = this.y + 38;
 		this.gfxObjects["action"].x = this.x + 0;
 		this.gfxObjects["action"].y = this.y + 32;
 	}
 	
 	update()
 	{
+		let tmp;
+		
 		this.gfxObjects["bar_health"].value = this.characterObj.healthValue;
 		this.gfxObjects["bar_health"].max = this.characterObj.healthMax;
 		this.gfxObjects["bar_attack"].value = getLevelValue(this.characterObj.points.attackOneHanded);
 		this.gfxObjects["bar_attack"].max = getLevelMax(this.characterObj.points.attackOneHanded);
+		
+		this.gfxObjects["label_health"].text = this.characterObj.healthValue + "/" + this.characterObj.healthMax;
 		if (this.characterObj.equipment.weapon)
 		{
-			this.gfxObjects["label_attack"].text = this.characterObj.equipment.weapon.baseDamageMin + "-" + this.characterObj.equipment.weapon.baseDamageMax;
+			if (this.characterObj.equipment.weapon.weaponClass == WEAPON_CLASS_ONE_HANDED)
+			{
+				tmp = this.characterObj.points.attackOneHanded;
+			}
+			else
+			{
+				tmp = this.characterObj.points.attackOneHanded;
+			}
+			
+			this.gfxObjects["label_attack"].text = "L" + getLevelFromExperiencePoints(tmp) + " " + this.characterObj.equipment.weapon.baseDamageMin + "-" + this.characterObj.equipment.weapon.baseDamageMax;
 		}
 		else
 		{
@@ -83,7 +104,7 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["bar_defense"].max = getLevelMax(this.characterObj.points.defense);
 		if (this.characterObj.equipment.shield)
 		{
-			this.gfxObjects["label_defense"].text = this.characterObj.equipment.shield.baseDefenseMin + "-" + this.characterObj.equipment.shield.baseDefenseMax;
+			this.gfxObjects["label_defense"].text = "L" + getLevelFromExperiencePoints(this.characterObj.points.defense) + " " + this.characterObj.equipment.shield.baseDefenseMin + "-" + this.characterObj.equipment.shield.baseDefenseMax;
 		}
 		else
 		{
