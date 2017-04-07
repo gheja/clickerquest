@@ -77,6 +77,15 @@ class GfxCharacter extends GfxBase
 	{
 		let tmp;
 		
+		if (this.gfxObjects["bar_health"].value == 0)
+		{
+			this.gfxObjects["border"].name = "portrait_border_dead";
+		}
+		else
+		{
+			this.gfxObjects["border"].name = "portrait_border";
+		}
+		
 		this.gfxObjects["bar_health"].value = this.characterObj.healthValue;
 		this.gfxObjects["bar_health"].max = this.characterObj.healthMax;
 		this.gfxObjects["bar_attack"].value = getLevelValue(this.characterObj.points.attackOneHanded);

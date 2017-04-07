@@ -44,6 +44,7 @@ const GRAPHICS = [
 	[ "portrait_hero1", 352, 140, 30, 30 ],
 	[ "portrait_background", 383, 140, 30, 30 ],
 	[ "portrait_border", 414, 140, 30, 31 ],
+	[ "portrait_border_dead", 445, 140, 30, 31 ],
 	
 	[ "bar2_full", 75, 10, 4, 8 ],
 	[ "bar2_full_tip", 80, 10, 1, 8 ],
