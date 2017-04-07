@@ -11,6 +11,14 @@ class ScreenPlace extends Screen2
 	
 	clickStartTurn()
 	{
+		this.hero1.turnPrepare();
+		this.enemy.turnPrepare();
+		
+		this.hero1.turnAction();
+		this.enemy.turnAction();
+		
+		this.hero1.turnFinish();
+		this.enemy.turnFinish();
 	}
 	
 	clickMenu()
@@ -38,6 +46,25 @@ class ScreenPlace extends Screen2
 		this.objects["button_flee"].disabled = true;
 		this.objects["button_inventory"].disabled = true;
 		this.objects["button_map"].disabled = true;
+		
+		
+		this.hero1 = new ObjCharacter();
+		this.enemy = new ObjCharacter();
+		
+		this.objects["character_hero1"] = new GfxCharacter(this._gfx, 0, this.hero1);
+		this.objects["character_enemy"] = new GfxCharacter(this._gfx, 2, this.enemy);
+		
+		this.hero1.equipment.weapon = new ItemFirstSword();
+		this.hero1.equipment.shield = new ItemFirstShield();
+		this.hero1.target = this.enemy;
+		this.hero1.ownParty = [ this.hero1 ];
+		this.hero1.targetParty = [ this.enemy ];
+		
+		this.enemy.equipment.weapon = new ItemFirstSword();
+		this.enemy.equipment.shield = new ItemFirstShield();
+		this.enemy.target = this.hero1;
+		this.enemy.ownParty = [ this.enemy ];
+		this.enemy.targetParty = [ this.hero1 ];
 	}
 	
 	tick()
