@@ -71,7 +71,6 @@ class SoundManager
 	{
 		console.log('SoundManager.loadNextAsset');
 		this.sounds[this.songIdToLoad] = new SoundObject();
-		// this.sounds[this.songIdToLoad] = [];
 		this.asset = AV.Asset.fromURL("./sounds/" + SONGS[this.songIdToLoad]);
 		this.asset.on('format', this.onAssetFormat.bind(this));
 		this.asset.on('data', this.onAssetData.bind(this));

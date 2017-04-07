@@ -2,7 +2,6 @@
 
 class GfxBar extends GfxBase
 {
-	// , x = 0, y = 0, width = 100, height = 8, max = 100, value = 50
 	constructor(x, y, width, height, max, value, type)
 	{
 		super(nvl(x, 0), nvl(y, 0), nvl(width, 100), nvl(height, 8));

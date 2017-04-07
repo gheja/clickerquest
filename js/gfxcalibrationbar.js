@@ -2,7 +2,6 @@
 
 class GfxCalibrationbar extends GfxBase
 {
-	// , x = 0, y = 0, width = 100, height = 8, max = 100, value = 50
 	constructor(gfx, x, y, width)
 	{
 		super(gfx,  nvl(x, 0), nvl(y, 0), nvl(width, 96), 8);
