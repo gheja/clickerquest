@@ -77,7 +77,7 @@ class GfxCharacter extends GfxBase
 	{
 		let tmp;
 		
-		if (this.gfxObjects["bar_health"].value == 0)
+		if (this.characterObj.dead)
 		{
 			this.gfxObjects["border"].name = "portrait_border_dead";
 		}

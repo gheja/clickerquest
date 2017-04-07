@@ -59,6 +59,7 @@ class ObjCharacter
 	{
 		this.validActions = [ 'attack', 'defend', 'rest' ];
 		this.action = 'attack';
+		this.dead = false;
 		
 		this.points = {
 			experience: 0,
@@ -191,6 +192,12 @@ class ObjCharacter
 		if (this.equipment.shield && this.action == 'defend')
 		{
 			this.points.defense += this.equipment.shield.progressPoints;
+		}
+		
+		if (this.healthValue == 0)
+		{
+			this.dead = true;
+			this.action = 'invalid';
 		}
 		
 		// level up?
