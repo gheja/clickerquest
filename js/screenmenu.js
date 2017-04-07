@@ -28,6 +28,7 @@ class ScreenMenu extends Screen2
 	enter()
 	{
 		_soundManager.switchMusic(0);
+		this.hideHover();
 	}
 	
 	init()

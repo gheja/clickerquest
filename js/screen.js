@@ -9,6 +9,7 @@ class Screen2
 	
 	enter()
 	{
+		this.hideHover();
 	}
 	
 	leave()
@@ -25,6 +26,16 @@ class Screen2
 	
 	clickDefault(x, y)
 	{
+	}
+	
+	hideHover()
+	{
+		var i;
+		
+		for (i in this.objects)
+		{
+			this.objects[i].checkHover(-1, -1);
+		}
 	}
 	
 	mouseMove(x, y)
@@ -45,8 +56,6 @@ class Screen2
 		{
 			if (this.objects[i].checkAndDoClick(x, y))
 			{
-				// hide hover
-				this.objects[i].checkHover(-1, -1);
 				return true;
 			}
 		}

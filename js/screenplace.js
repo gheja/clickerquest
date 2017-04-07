@@ -20,6 +20,11 @@ class ScreenPlace extends Screen2
 		this.enemy.turnFinish();
 	}
 	
+	enter()
+	{
+		this.hideHover();
+	}
+	
 	clickMenu()
 	{
 		_game.switchScreen('menu');
