@@ -19,7 +19,7 @@ class GfxBar extends GfxBase
 	
 	draw()
 	{
-		let a, z, h;
+		let a, z;
 		
 		a = Math.max(Math.min(this.value / this.max, 1), 0);
 		
@@ -39,27 +39,18 @@ class GfxBar extends GfxBase
 			}
 			_gfx.drawSprite("bar_right", this.x + this.width - 4, this.y);
 		}
-		else if (this.type == 2 || this.type == 3)
+		else if (this.type == 2)
 		{
 			z = Math.round(a * (this.width));
 			
-			if (this.type == 2)
-			{
-				h = 7;
-			}
-			else
-			{
-				h = 3;
-			}
-			
-			_gfx.drawSpriteElastic("bar2_empty", this.x, this.y, this.width, h);
+			_gfx.drawSpriteElastic("bar2_empty", this.x, this.y, this.width, this.height);
 			if (z > 0)
 			{
-				_gfx.drawSpriteElastic("bar2_full", this.x, this.y, z, h);
+				_gfx.drawSpriteElastic("bar2_full", this.x, this.y, z, this.height);
 				
 				if (a < 1)
 				{
-					_gfx.drawSpriteElastic("bar2_full_tip", this.x + z, this.y, 1, h);
+					_gfx.drawSpriteElastic("bar2_full_tip", this.x + z, this.y, 1, this.height);
 				}
 			}
 		}
