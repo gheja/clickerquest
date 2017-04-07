@@ -32,10 +32,9 @@ class ScreenMenu extends Screen2
 	
 	init()
 	{
-		this.objects["cover"] = new GfxImage(this._gfx, "cover_splash", 0, 32);
-		this.objects["logo"] = new GfxImage(this._gfx, "logo", 94, 32);
-		this.objects["beatbar"] = new GfxBeatbar(this._gfx, 8, 8);
-		this.objects["bar"] = new GfxBar(this._gfx, 108, 8, 172);
+		_game.addHeaderObjects(this.objects, this._gfx);
+		_game.addBeatObjects(this.objects, this._gfx);
+		
 		this.objects["button1"] = new GfxButton(this._gfx, 100, 160, 100, "Start game", this.clickStartGame.bind(this));
 		this.objects["button2"] = new GfxButton(this._gfx, 100, 180, 100, "Calibration", this.clickCalibration.bind(this));
 		this.objects["button3"] = new GfxButton(this._gfx, 100, 200, 100, "Credits", this.clickCredits.bind(this));

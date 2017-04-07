@@ -111,6 +111,20 @@ class Game
 		}
 	}
 	
+	addHeaderObjects(objects, gfx)
+	{
+		objects["cover"] = new GfxImage(gfx, "cover_splash", 0, 32);
+		objects["logo"] = new GfxImage(gfx, "logo", 94, 32);
+	}
+	
+	addBeatObjects(objects, gfx)
+	{
+		objects["beatbar"] = new GfxBeatbar(gfx, 8, 8);
+		objects["bar"] = new GfxBar(gfx, 108, 8, 172);
+		objects["multiplier"] = new GfxMultiplier(gfx, 108, 20);
+		objects["multiplier"].max = 4;
+	}
+	
 	onClickHtmlBody(event)
 	{
 		this.onClick({ clientX: -1, clientY: -1 });

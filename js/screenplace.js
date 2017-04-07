@@ -28,12 +28,9 @@ class ScreenPlace extends Screen2
 	
 	init()
 	{
-		this.objects["cover"] = new GfxImage(this._gfx, "cover_place1", 0, 32);
+		_game.addBeatObjects(this.objects, this._gfx);
 		
-		this.objects["beatbar"] = new GfxBeatbar(this._gfx, 8, 8);
-		this.objects["bar"] = new GfxBar(this._gfx, 108, 8, 172);
-		this.objects["multiplier"] = new GfxMultiplier(this._gfx, 108, 20);
-		this.objects["multiplier"].max = 4;
+		this.objects["cover"] = new GfxImage(this._gfx, "cover_place1", 0, 32);
 		
 		this.objects["button_run"] = new GfxButton(this._gfx, 0, 240, 60, "Start turn", this.clickStartTurn.bind(this));
 		this.objects["button_explore"] = new GfxButton(this._gfx, 62, 240, 40, "Explore", this.clickStartTurn.bind(this));
