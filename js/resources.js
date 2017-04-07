@@ -23,17 +23,17 @@ const GRAPHICS = [
 	[ "switch_off", 29, 10, 22, 8 ],
 	[ "switch_on", 52, 10, 22, 8 ],
 	
-	[ "button_normal_left", 28, 19, 4, 16 ],
-	[ "button_normal_middle", 33, 19, 4, 16 ],
-	[ "button_normal_right", 38, 19, 4, 16 ],
+	[ "button_normal_left", 28, 19, 4, 13 ],
+	[ "button_normal_middle", 33, 19, 4, 13 ],
+	[ "button_normal_right", 38, 19, 4, 13 ],
 	
-	[ "button_hover_left", 43, 19, 4, 16 ],
-	[ "button_hover_middle", 48, 19, 4, 16 ],
-	[ "button_hover_right", 53, 19, 4, 16 ],
+	[ "button_hover_left", 43, 19, 4, 13 ],
+	[ "button_hover_middle", 48, 19, 4, 13 ],
+	[ "button_hover_right", 53, 19, 4, 13 ],
 	
-	[ "button_disabled_left", 58, 19, 4, 16 ],
-	[ "button_disabled_middle", 63, 19, 4, 16 ],
-	[ "button_disabled_right", 68, 19, 4, 16 ],
+	[ "button_disabled_left", 58, 19, 4, 13 ],
+	[ "button_disabled_middle", 63, 19, 4, 13 ],
+	[ "button_disabled_right", 68, 19, 4, 13 ],
 	
 	[ "cover_splash", 1, 39, 288, 100 ],
 	[ "cover_place1", 1, 140, 288, 100 ],
