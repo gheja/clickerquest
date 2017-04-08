@@ -51,7 +51,7 @@ class Game
 			return;
 		}
 		
-		this._nextFrameTime = a + (1000 / FPS);
+		this._nextFrameTime = a + FRAME_TIME_MS;
 		// --
 		
 		_profiler.start();
