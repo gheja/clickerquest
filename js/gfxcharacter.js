@@ -18,7 +18,7 @@ class GfxCharacter extends GfxBase
 		
 		this.gfxObjects = {};
 		this.gfxObjects["portrait"] = new GfxImage("portrait_hero1");
-		this.gfxObjects["border"] = new GfxImage("portrait_border");
+		this.gfxObjects["border"] = new GfxImage("portrait_hero_border");
 		this.gfxObjects["icon_health"] = new GfxImage("icon_health");
 		this.gfxObjects["icon_attack"] = new GfxImage("icon_attack");
 		this.gfxObjects["icon_defense"] = new GfxImage("icon_defense");
@@ -79,11 +79,11 @@ class GfxCharacter extends GfxBase
 		
 		if (this.characterObj.dead)
 		{
-			this.gfxObjects["border"].name = "portrait_border_dead";
+			this.gfxObjects["border"].name = "portrait_hero_border_dead";
 		}
 		else
 		{
-			this.gfxObjects["border"].name = "portrait_border";
+			this.gfxObjects["border"].name = "portrait_hero_border";
 		}
 		
 		this.gfxObjects["bar_health"].value = this.characterObj.healthValue;
