@@ -4,11 +4,11 @@
 
 const GRAPHICS = [
 	// title, left, top, width, height
-	[ "beatbar_empty", 1, 1, 8, 8 ],
-	[ "beatbar_end", 10, 1, 8, 8 ],
-	[ "beatbar_beat", 19, 1, 8, 8 ],
-	[ "beatbar_beat_missed", 28, 1, 8, 8 ],
-	[ "beatbar_beat_matched", 37, 1, 8, 8 ],
+	[ "beatbar_empty", 115, 1, 12, 12 ],
+	[ "beatbar_end", 128, 1, 12, 12 ],
+	[ "beatbar_beat", 141, 1, 12, 12 ],
+	[ "beatbar_beat_missed", 154, 1, 12, 12 ],
+	[ "beatbar_beat_matched", 167, 1, 12, 12 ],
 	
 	[ "bar_left", 1, 10, 2, 8 ],
 	[ "bar_full", 4, 10, 9, 8 ],

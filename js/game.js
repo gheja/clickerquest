@@ -116,10 +116,11 @@ class Game
 	
 	addBeatObjects(objects)
 	{
-		objects["beatbar"] = new GfxBeatbar(8, 8);
-		objects["bar"] = new GfxBar(108, 8, 172);
-		objects["multiplier"] = new GfxMultiplier(108, 20);
-		objects["multiplier"].max = 4;
+		objects["beatbar"] = new GfxBeatbar(0, 2, 108);
+		objects["bar"] = new GfxBar(108, 4, 180, 8, 100, 0);
+		objects["multiplier"] = new GfxMultiplier(109, 14);
+		objects["multiplier"].max = 5;
+		objects["multiplier"].value = 1;
 	}
 	
 	onClickHtmlBody(event)
