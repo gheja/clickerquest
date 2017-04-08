@@ -6,8 +6,8 @@ class GfxCharacter extends GfxBase
 	{
 		let x, y;
 		
-		x = (n % 3) * 96 + 2;
-		y = Math.floor(n / 3) * 40 + 150;
+		x = (n % 3) * 97;
+		y = Math.floor(n / 3) * 44 + 155;
 		
 		super(x, y, 96, 40);
 		
@@ -22,10 +22,10 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["icon_health"] = new GfxImage("icon_health");
 		this.gfxObjects["icon_attack"] = new GfxImage("icon_attack");
 		this.gfxObjects["icon_defense"] = new GfxImage("icon_defense");
-		this.gfxObjects["bar_health"] = new GfxBar(0, 0, 50, 3, 0, 0, 2);
-		this.gfxObjects["bar_attack"] = new GfxBar(0, 0, 50, 3, 0, 0, 2);
-		this.gfxObjects["bar_defense"] = new GfxBar(0, 0, 50, 3, 0, 0, 2);
-		this.gfxObjects["bar_xp"] = new GfxBar(0, 0, 60, 2, 0, 0, 2);
+		this.gfxObjects["bar_health"] = new GfxBar(0, 0, 51, 3, 0, 0, 2);
+		this.gfxObjects["bar_attack"] = new GfxBar(0, 0, 51, 3, 0, 0, 2);
+		this.gfxObjects["bar_defense"] = new GfxBar(0, 0, 51, 3, 0, 0, 2);
+		this.gfxObjects["bar_xp"] = new GfxBar(0, 0, 61, 2, 0, 0, 2);
 		this.gfxObjects["action"] = new GfxButtonswitch(0, 0, this.onCycleAction.bind(this));
 		this.gfxObjects["label_health"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_attack"] = new GfxLabel(0, 0, 'left', '1-2');

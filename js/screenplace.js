@@ -36,24 +36,31 @@ class ScreenPlace extends Screen2
 		
 		this.objects["cover"] = new GfxImage("cover_place1", 0, 32);
 		
-		this.objects["button_run"] = new GfxButton(0, 240, 60, "Start turn", this.clickStartTurn.bind(this));
-		this.objects["button_explore"] = new GfxButton(62, 240, 40, "Explore", this.clickStartTurn.bind(this));
-		this.objects["button_flee"] = new GfxButton(104, 240, 40, "Flee", this.clickStartTurn.bind(this));
-		this.objects["button_inventory"] = new GfxButton(146, 240, 58, "Inventory", this.clickStartTurn.bind(this));
-		this.objects["button_map"] = new GfxButton(206, 240, 40, "Map", this.clickStartTurn.bind(this));
-		this.objects["button_back"] = new GfxButton(248, 240, 40, "Menu", this.clickMenu.bind(this));
+		this.objects["label_story"] = new GfxLabel(0, 150, 288, "The party has just found a Lorem Ipsum Dolor, nice!");
+		
+		this.objects["button_run"] = new GfxButton(0, 243, 60, "Start turn", this.clickStartTurn.bind(this));
+		this.objects["button_explore"] = new GfxButton(62, 243, 40, "Explore", this.clickStartTurn.bind(this));
+		this.objects["button_flee"] = new GfxButton(104, 243, 40, "Flee", this.clickStartTurn.bind(this));
+		this.objects["button_inventory"] = new GfxButton(146, 243, 58, "Inventory", this.clickStartTurn.bind(this));
+		this.objects["button_map"] = new GfxButton(206, 243, 40, "Map", this.clickStartTurn.bind(this));
+		this.objects["button_back"] = new GfxButton(248, 243, 40, "Menu", this.clickMenu.bind(this));
 		
 		this.objects["button_explore"].disabled = true;
 		this.objects["button_flee"].disabled = true;
 		this.objects["button_inventory"].disabled = true;
 		this.objects["button_map"].disabled = true;
 		
-		this.objects["map_progress"] = new GfxBar(2, 134, 286, 8, 100, 70);
+		this.objects["map_progress"] = new GfxBar(0, 133, 288, 8, 100, 70, 3);
 		
 		this.hero1 = new ObjCharacter();
 		this.enemy = new ObjCharacter();
 		
 		this.objects["character_hero1"] = new GfxCharacter(0, this.hero1);
+		this.objects["character_hero2"] = new GfxCharacter(1, this.hero1);
+		// this.objects["character_hero3"] = new GfxCharacter(2, this.hero1);
+		this.objects["character_hero4"] = new GfxCharacter(3, this.hero1);
+		this.objects["character_hero5"] = new GfxCharacter(4, this.hero1);
+		this.objects["character_hero6"] = new GfxCharacter(5, this.hero1);
 		this.objects["character_enemy"] = new GfxCharacter(2, this.enemy);
 		
 		this.hero1.equipment.weapon = new ItemFirstSword();

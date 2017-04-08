@@ -36,10 +36,11 @@ class ScreenMenu extends Screen2
 		_game.addHeaderObjects(this.objects);
 		_game.addBeatObjects(this.objects);
 		
-		this.objects["button1"] = new GfxButton(100, 160, 100, "Start game", this.clickStartGame.bind(this));
-		this.objects["button2"] = new GfxButton(100, 180, 100, "Calibration", this.clickCalibration.bind(this));
-		this.objects["button3"] = new GfxButton(100, 200, 100, "Credits", this.clickCredits.bind(this));
-		this.objects["button4"] = new GfxButton(100, 230, 100, "Reset progress", this.clickCredits.bind(this));
+		this.objects["button1"] = new GfxButton(100, 150, 100, "Start game", this.clickStartGame.bind(this));
+		this.objects["button2"] = new GfxButton(100, 166, 100, "Calibration", this.clickCalibration.bind(this));
+		this.objects["button3"] = new GfxButton(100, 182, 100, "Options", this.clickCredits.bind(this));
+		this.objects["button4"] = new GfxButton(100, 198, 100, "Credits", this.clickCredits.bind(this));
+		this.objects["button5"] = new GfxButton(100, 224, 100, "Reset progress", this.clickCredits.bind(this));
 	}
 	
 	tick()
