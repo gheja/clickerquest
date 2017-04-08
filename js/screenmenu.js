@@ -13,7 +13,7 @@ class ScreenMenu extends Screen2
 	
 	clickStartGame()
 	{
-		_game.startLevel();
+		_game.startGame();
 	}
 	
 	clickCalibration()

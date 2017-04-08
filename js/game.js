@@ -11,6 +11,10 @@ class Game
 		this.ticks = 0;
 		this.firstClick = true;
 		this.startTime = 0;
+		this.doors = [];
+		this.places = [];
+		this.activePlace = null;
+		this.phase = "none";
 	}
 	
 	resetTime()
@@ -34,9 +38,42 @@ class Game
 		this.screen.draw();
 	}
 	
-	startLevel()
+	setActivePlace(name)
 	{
+		let a;
+		
+		for (a of this.places)
+		{
+			if (a.name == name)
+			{
+				this.activePlace = name;
+				return;
+			}
+		}
+		
+		console.log("Could not find place \"" + name + "\".");
+	}
+	
+	startGame()
+	{
+		this.setActivePlace("home");
+		this.setGamePhase("place");
 		this.switchScreen('place');
+	}
+	
+	addEnemy(className, level)
+	{
+		let tmp;
+		
+		tmp = new window[className](); // eh :)
+		tmp.points.experience = getExperiencePointsFromLevel(level);
+		
+		this.enemyParty.push(tmp)
+	}
+	
+	setGamePhase(phase)
+	{
+		this.gamePhase = phase;
 	}
 	
 	update()
@@ -133,6 +170,22 @@ class Game
 		this.screen.mouseMove(Math.round((event.clientX - _gfx.domLeft) / _gfx.zoom), Math.round((event.clientY - _gfx.domTop) / _gfx.zoom));
 	}
 	
+	initMap()
+	{
+		let a;
+		
+		a = new ObjPlace("home", "Home", "cover_home", 100);
+		a = new ObjPlace("forest", "Forest", "cover_forest", 500);
+		a.enemyGroups.push(new EnemyGroup("enemy1", 1, 0.5));
+		
+		a = new ObjDoor("home", "forest", 0.5, true);
+		
+		for (a of this.places)
+		{
+			a.init();
+		}
+	}
+	
 	init()
 	{
 		let i;
@@ -150,6 +203,8 @@ class Game
 		_beater.init();
 		
 		_soundManager = new SoundManager();
+		
+		this.initMap();
 		
 		this.screens['splash'] = new ScreenSplash();
 		this.screens['calibration'] = new ScreenCalibration();
