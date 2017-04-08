@@ -59,6 +59,7 @@ class Game
 		this.setActivePlace("home");
 		this.setGamePhase("place");
 		this.switchScreen('place');
+		_gfx.setBackgroundColor("#bb7700");
 	}
 	
 	addEnemy(className, level)

@@ -9,11 +9,14 @@ class Gfx
 		this.zoom = 1;
 		this.pixelRatio = 1;
 		this.z = 1;
-		this._spritesheet = null;
+		this._spritesheetOriginal = null;
 		this._spritesheetLoaded = false;
+		this._spritesheetCanvas = null;
+		this._spritesheetCtx = null;
 		this._spriteStore = {};
-		this.foreground = "#fff";
-		this.background = "#000";
+		this.foreground = "#eeeeee";
+		this.background = "#002255";
+		this.colorsChanged = false;
 		this.domLeft = 0;
 		this.domTop = 0;
 		this.domWidth = 0;
@@ -85,6 +88,11 @@ class Gfx
 			this.createSprite(...a);
 		}
 		
+		this._spritesheetCanvas.width = this._spritesheetOriginal.width;
+		this._spritesheetCanvas.height = this._spritesheetOriginal.height;
+		
+		this.updateSpriteColors();
+		
 		this._spritesheetLoaded = true;
 	}
 	
@@ -92,9 +100,102 @@ class Gfx
 	_loadSpritesheet()
 	{
 		console.log("Loading sprites...");
-		this._spritesheet = new Image();
-		this._spritesheet.addEventListener("load", this.onSpritesheetLoadedCallback.bind(this));
-		this._spritesheet.src = SPRITESHEET_URL;
+		this._spritesheetOriginal = new Image();
+		this._spritesheetOriginal.addEventListener("load", this.onSpritesheetLoadedCallback.bind(this));
+		this._spritesheetOriginal.src = SPRITESHEET_URL;
+	}
+	
+	setBackgroundColor(c)
+	{
+		this.background = c;
+		this.colorsChanged = true;
+	}
+	
+	setForegroundColor(c)
+	{
+		this.foreground = c;
+		this.colorsChanged = true;
+	}
+	
+	updateSpriteColors()
+	{
+		let data1, d, a, i, j, k, x, y, w, h, foreground, background;
+		
+		function getColorArray(a)
+		{
+			function f(x, y)
+			{
+				return parseInt(x, 16) * 16 + parseInt(y, 16);
+			}
+			
+			return [ f(a[1], a[2]), f(a[3], a[4]), f(a[5], a[6]), f(a[7], a[8]) ];
+		}
+		
+		foreground = getColorArray(this.foreground);
+		background = getColorArray(this.background);
+		
+		this._spritesheetCtx.drawImage(this._spritesheetOriginal, 0, 0);
+		data1 = this._spritesheetCtx.getImageData(0, 0, this._spritesheetOriginal.width, this._spritesheetOriginal.height);
+		d = data1.data;
+		
+		for (a of GRAPHICS)
+		{
+			x = a[1];
+			y = a[2];
+			w = a[3];
+			h = a[4];
+			
+			for (i=0; i<w; i++)
+			{
+				for (j=0; j<h; j++)
+				{
+					k = ((y + j) * this._spritesheetOriginal.width + (x + i)) * 4;
+					
+					if (d[k + 3] != 0)
+					{
+						// black
+						if (d[k] == 0 && d[k + 1] == 0 && d[k + 2] == 0)
+						{
+							d[k    ] = background[0];
+							d[k + 1] = background[1];
+							d[k + 2] = background[2];
+						}
+						else
+						{
+							d[k    ] = foreground[0];
+							d[k + 1] = foreground[1];
+							d[k + 2] = foreground[2];
+						}
+					}
+				}
+			}
+		}
+/*
+		for (i=0; i<d.length; i++)
+		{
+			j = i * 4;
+			
+			// ignore fully transparent pixels
+			if (d[j + 3] != 0)
+			{
+				// black
+				if (d[j] == 0 && d[j + 1] == 0 && d[j + 2] == 0)
+				{
+					d[j    ] = background[0];
+					d[j + 1] = background[1];
+					d[j + 2] = background[2];
+				}
+				else
+				{
+					d[j    ] = foreground[0];
+					d[j + 1] = foreground[1];
+					d[j + 2] = foreground[2];
+				}
+			}
+		}
+*/
+		
+		this._spritesheetCtx.putImageData(data1, 0, 0);
 	}
 	
 	createSprite(name, x, y, width, height)
@@ -117,7 +218,7 @@ class Gfx
 			return;
 		}
 		
-		this.finalCtx.drawImage(this._spritesheet, a.x, a.y, a.width, a.height, x * this.z, y * this.z, a.width * this.z, a.height * this.z);
+		this.finalCtx.drawImage(this._spritesheetCanvas, a.x, a.y, a.width, a.height, x * this.z, y * this.z, a.width * this.z, a.height * this.z);
 	}
 	
 	drawSpriteElastic(name, x, y, width, height)
@@ -140,7 +241,7 @@ class Gfx
 				k = Math.min(a.width, width - i * a.width);
 				l = Math.min(a.height, height - j * a.height);
 				
-				this.finalCtx.drawImage(this._spritesheet, a.x, a.y, k, l, (x + i * a.width) * this.z, (y + j * a.height) * this.z, k * this.z, l * this.z);
+				this.finalCtx.drawImage(this._spritesheetCanvas, a.x, a.y, k, l, (x + i * a.width) * this.z, (y + j * a.height) * this.z, k * this.z, l * this.z);
 			}
 		}
 		
@@ -148,23 +249,35 @@ class Gfx
 	
 	clear()
 	{
-		if (this._spritesheetLoaded)
+		if (!this._spritesheetLoaded)
 		{
-			// this.finalCtx.fillStyle = "#042";
-			this.finalCtx.fillStyle = "#000";
-		}
-		else
-		{
-			this.finalCtx.fillStyle = "#300";
+			this.finalCtx.fillStyle = this.background;
+			this.finalCtx.fillRect(0, 0, FINAL_WIDTH * this.z, FINAL_HEIGHT * this.z);
+			return;
 		}
 		
+		if (this.colorsChanged)
+		{
+			this.colorsChanged = false;
+			
+			_body.style.background = this.background;
+			
+			this.updateSpriteColors();
+		}
+		
+		this.finalCtx.fillStyle = this.background;
 		this.finalCtx.fillRect(0, 0, FINAL_WIDTH * this.z, FINAL_HEIGHT * this.z);
 	}
 	
 	init()
 	{
+		this._spritesheetCanvas = newCanvas();
+		this._spritesheetCtx = this._spritesheetCanvas.getContext("2d");
+		
 		this.finalCanvas = newCanvas();
 		this.finalCtx = this.finalCanvas.getContext("2d");
+		
+		this.colorsChanged = true;
 		
 		appendCanvas(this.finalCanvas);
 		
