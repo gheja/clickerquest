@@ -5,7 +5,6 @@ class ScreenPlace extends Screen2
 	constructor()
 	{
 		super();
-		this.a = 0;
 	}
 	
 	clickStartTurn()
@@ -73,11 +72,7 @@ class ScreenPlace extends Screen2
 	
 	tick()
 	{
-		this.a++;
-		
-		this.objects["bar"].value += 1;
 		this.objects["beatbar"].setBeatsFromBeater(_game.getTime());
-		this.objects["beatbar"].status = "matched";
 	}
 	
 	clickDefault(x, y)
