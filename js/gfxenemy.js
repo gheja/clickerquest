@@ -26,6 +26,10 @@ class GfxEnemy extends GfxBase
 		this.gfxObjects["label_name_line1"] = new GfxLabel(0, 0, 'left', 'Enemy name');
 		this.gfxObjects["label_name_line2"] = new GfxLabel(0, 0, 'left', 'goes here');
 		this.gfxObjects["label_level"] = new GfxLabel(0, 0, 'left', 'Level 11');
+		
+		this.gfxObjects["border_overlay"] = new GfxImage("portrait_common_hit");
+		this.gfxObjects["label_overlay"] = new GfxLabel(0, 0, 'center', '+100');
+		this.gfxObjects["label_overlay"].inverted = true;
 	}
 	
 	onCycleAction()
@@ -56,6 +60,11 @@ class GfxEnemy extends GfxBase
 		this.gfxObjects["bar_health"].y = this.y + 27;
 		this.gfxObjects["label_health"].x = this.x - 53;
 		this.gfxObjects["label_health"].y = this.y + 26;
+		
+		this.gfxObjects["border_overlay"].x = this.x;
+		this.gfxObjects["border_overlay"].y = this.y;
+		this.gfxObjects["label_overlay"].x = this.x + 15;
+		this.gfxObjects["label_overlay"].y = this.y + 11;
 	}
 	
 	update()
@@ -81,6 +90,19 @@ class GfxEnemy extends GfxBase
 		// TODO: which is better?
 		//   this.gfxObjects["label_health"].text = this.characterObj.healthValue + "/" + this.characterObj.healthMax;
 		this.gfxObjects["label_health"].text = this.characterObj.healthValue;
+		
+		if (this.characterObj.message != "")
+		{
+			this.gfxObjects["border_overlay"].hidden = false;
+			this.gfxObjects["label_overlay"].hidden = false;
+			this.gfxObjects["border_overlay"].name = "portrait_common_hit";
+			this.gfxObjects["label_overlay"].text = this.characterObj.message;
+		}
+		else
+		{
+			this.gfxObjects["border_overlay"].hidden = true;
+			this.gfxObjects["label_overlay"].hidden = true;
+		}
 	}
 	
 	checkClick(x, y)
