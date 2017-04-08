@@ -56,12 +56,7 @@ class ScreenPlace extends Screen2
 		this.enemy = new ObjCharacter();
 		
 		this.objects["character_hero1"] = new GfxCharacter(0, this.hero1);
-		this.objects["character_hero2"] = new GfxCharacter(1, this.hero1);
-		// this.objects["character_hero3"] = new GfxCharacter(2, this.hero1);
-		this.objects["character_hero4"] = new GfxCharacter(3, this.hero1);
-		this.objects["character_hero5"] = new GfxCharacter(4, this.hero1);
-		this.objects["character_hero6"] = new GfxCharacter(5, this.hero1);
-		this.objects["character_enemy"] = new GfxCharacter(2, this.enemy);
+		this.objects["character_enemy"] = new GfxEnemy(0, this.enemy);
 		
 		this.hero1.equipment.weapon = new ItemFirstSword();
 		this.hero1.equipment.shield = new ItemFirstShield();
