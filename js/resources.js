@@ -50,6 +50,12 @@ const GRAPHICS = [
 	[ "bar2_full_tip", 80, 10, 1, 8 ],
 	[ "bar2_empty", 82, 10, 4, 8 ],
 	
+	[ "bar3_left", 87, 10, 2, 8 ],
+	[ "bar3_full", 90, 10, 9, 8 ],
+	[ "bar3_full_tip", 100, 10, 1, 8 ],
+	[ "bar3_empty", 102, 10, 9, 8 ],
+	[ "bar3_right", 112, 10, 2, 8 ],
+	
 	[ "icon_health", 73, 19, 9, 9 ],
 	[ "icon_attack", 83, 19, 9, 9 ],
 	[ "icon_defense", 93, 19, 9, 9 ],
