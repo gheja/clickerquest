@@ -150,7 +150,10 @@ class GfxCharacter extends GfxBase
 		
 		for (i in this.gfxObjects)
 		{
-			this.gfxObjects[i].draw();
+			if (!this.gfxObjects[i].hidden)
+			{
+				this.gfxObjects[i].draw();
+			}
 		}
 	}
 }
