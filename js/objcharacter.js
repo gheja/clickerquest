@@ -60,6 +60,8 @@ class ObjCharacter
 		this.validActions = [ 'attack', 'defend', 'rest' ];
 		this.action = 'attack';
 		this.dead = false;
+		this.nameLine1 = "Name goes";
+		this.nameLine2 = "here";
 		
 		this.points = {
 			experience: 0,

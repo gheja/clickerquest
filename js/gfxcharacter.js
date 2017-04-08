@@ -30,7 +30,7 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["label_health"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_attack"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_defense"] = new GfxLabel(0, 0, 'left', '1-2');
-		this.gfxObjects["label_xp"] = new GfxLabel(0, 0, 'left', 'Level 17');
+		this.gfxObjects["label_level"] = new GfxLabel(0, 0, 'left', 'Level 17');
 		
 		this.gfxObjects["border_overlay"] = new GfxImage("portrait_common_hit");
 		this.gfxObjects["label_overlay"] = new GfxLabel(0, 0, 'center', '+100');
@@ -51,8 +51,8 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["portrait"].y = this.y;
 		this.gfxObjects["border"].x = this.x;
 		this.gfxObjects["border"].y = this.y;
-		this.gfxObjects["label_xp"].x = this.x + 32;
-		this.gfxObjects["label_xp"].y = this.y + 5;
+		this.gfxObjects["label_level"].x = this.x + 32;
+		this.gfxObjects["label_level"].y = this.y + 5;
 		this.gfxObjects["bar_xp"].x = this.x + 32;
 		this.gfxObjects["bar_xp"].y = this.y + 6;
 		this.gfxObjects["icon_health"].x = this.x + 32;
@@ -94,6 +94,8 @@ class GfxCharacter extends GfxBase
 		{
 			this.gfxObjects["border"].name = "portrait_hero_border";
 		}
+		
+		this.gfxObjects["label_level"].text = "Level " + getLevelFromExperiencePoints(this.characterObj.points.experience);
 		
 		this.gfxObjects["bar_health"].value = this.characterObj.healthValue;
 		this.gfxObjects["bar_health"].max = this.characterObj.healthMax;
