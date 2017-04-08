@@ -88,6 +88,7 @@ class ObjCharacter
 		this.target = null;
 		this.ownParty = [];
 		this.targetParty = [];
+		this.message = "";
 	}
 	
 	cycleAction()
@@ -149,6 +150,8 @@ class ObjCharacter
 	
 	turnPrepare()
 	{
+		this.message = "";
+		
 		this.turnHitValue = 0;
 		this.turnDefenseValue = 0;
 		this.turnHealValue = 0;
@@ -172,10 +175,20 @@ class ObjCharacter
 	
 	turnFinish()
 	{
+		let tmp;
+		
 		this.level = getLevelFromExperiencePoints(this.points.experience);
+		
+		tmp = this.healthValue;
 		
 		this.healthMax = this.level * 100;
 		this.healthValue = clip(this.healthValue + this.turnHealValue - Math.max(this.turnHitValue - this.turnDefenseValue, 0), 0, this.healthMax);
+		
+		tmp = this.healthValue - tmp;
+		if (tmp != 0)
+		{
+			this.message = (tmp > 0 ? "+" : "-") + Math.abs(tmp);
+		}
 		
 		if (this.equipment.weapon && this.action == 'attack')
 		{
@@ -198,7 +211,9 @@ class ObjCharacter
 		{
 			this.dead = true;
 			this.action = 'invalid';
+			this.message = "";
 		}
+		
 		
 		// level up?
 		// this.points. ... += ...

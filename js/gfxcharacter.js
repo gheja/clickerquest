@@ -31,6 +31,10 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["label_attack"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_defense"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_xp"] = new GfxLabel(0, 0, 'left', 'Level 17');
+		
+		this.gfxObjects["border_overlay"] = new GfxImage("portrait_common_hit");
+		this.gfxObjects["label_overlay"] = new GfxLabel(0, 0, 'center', '+100');
+		this.gfxObjects["label_overlay"].inverted = true;
 	}
 	
 	onCycleAction()
@@ -71,6 +75,11 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["bar_defense"].y = this.y + 38;
 		this.gfxObjects["action"].x = this.x + 0;
 		this.gfxObjects["action"].y = this.y + 32;
+		
+		this.gfxObjects["border_overlay"].x = this.x;
+		this.gfxObjects["border_overlay"].y = this.y;
+		this.gfxObjects["label_overlay"].x = this.x + 15;
+		this.gfxObjects["label_overlay"].y = this.y + 11;
 	}
 	
 	update()
@@ -120,6 +129,19 @@ class GfxCharacter extends GfxBase
 			this.gfxObjects["label_defense"].text = "-";
 		}
 		this.gfxObjects["action"].spriteName = "action_" + this.characterObj.action;
+		
+		if (this.characterObj.message != "")
+		{
+			this.gfxObjects["border_overlay"].hidden = false;
+			this.gfxObjects["label_overlay"].hidden = false;
+			this.gfxObjects["border_overlay"].name = "portrait_common_hit";
+			this.gfxObjects["label_overlay"].text = this.characterObj.message;
+		}
+		else
+		{
+			this.gfxObjects["border_overlay"].hidden = true;
+			this.gfxObjects["label_overlay"].hidden = true;
+		}
 	}
 	
 	checkClick(x, y)
