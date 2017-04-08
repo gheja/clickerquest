@@ -9,6 +9,7 @@ const GRAPHICS = [
 	[ "beatbar_beat", 141, 1, 12, 12 ],
 	[ "beatbar_beat_missed", 154, 1, 12, 12 ],
 	[ "beatbar_beat_matched", 167, 1, 12, 12 ],
+	[ "beatbar_beat2", 180, 1, 12, 12 ],
 	
 	[ "bar_left", 1, 10, 2, 8 ],
 	[ "bar_full", 4, 10, 9, 8 ],

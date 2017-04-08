@@ -18,8 +18,8 @@ class GfxCalibrationbar extends GfxBase
 	
 	draw()
 	{
-		_gfx.drawSpriteElastic("beatbar_empty", this.x, this.y, this.width, 8);
-		_gfx.drawSprite("beatbar_end", this.x + this.width / 2 - 4, this.y);
-		_gfx.drawSprite("beatbar_beat", this.x + (this.width / 2 - 4)+ this.pos * (this.width / 2 - 4), this.y);
+		_gfx.drawSpriteElastic("beatbar_empty", this.x, this.y, this.width, 12);
+		_gfx.drawSprite("beatbar_end", this.x + this.width / 2 - 6, this.y);
+		_gfx.drawSprite("beatbar_beat2", this.x + (this.width / 2 - 6)+ this.pos * (this.width / 2 - 6), this.y);
 	}
 }

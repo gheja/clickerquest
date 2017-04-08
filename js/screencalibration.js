@@ -22,7 +22,7 @@ class ScreenCalibration extends Screen2
 		_beater.addBeat(_game.getTime() + FRAME_TIME_MS * 60);
 		this.finished = false;
 		this.objects["beatbar"].hidden = false;
-		this.objects["label"].text = "Click when the box reaches the middle.";
+		this.objects["label"].text = "Click when the box is at the center.";
 		_soundManager.switchMusic(null);
 	}
 	
