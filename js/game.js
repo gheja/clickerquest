@@ -68,7 +68,6 @@ class Game
 	startGame()
 	{
 		this.setActivePlace("home");
-		this.setGamePhase("place");
 		this.switchScreen('place');
 	}
 	
