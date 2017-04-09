@@ -105,6 +105,12 @@ class ScreenPlace extends Screen2
 	
 	tick()
 	{
+		if (_game.newClick)
+		{
+			this.objects["map_progress"].max = _game.activePlace.progressNeeded;
+			this.objects["map_progress"].value = _game.activePlace.progressValue;
+		}
+		
 		this.objects["beatbar"].setBeatsFromBeater(_game.getTime());
 	}
 	
