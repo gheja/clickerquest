@@ -107,12 +107,22 @@ class Gfx
 	
 	setBackgroundColor(c)
 	{
+		if (this.background == c)
+		{
+			return;
+		}
+		
 		this.background = c;
 		this.colorsChanged = true;
 	}
 	
 	setForegroundColor(c)
 	{
+		if (this.foreground == c)
+		{
+			return;
+		}
+		
 		this.foreground = c;
 		this.colorsChanged = true;
 	}
