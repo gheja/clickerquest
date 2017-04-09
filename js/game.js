@@ -14,7 +14,7 @@ class Game
 		this.doors = [];
 		this.places = [];
 		this.activePlace = null;
-		this.phase = "none";
+		this.gamePhase = "none";
 		this.newClick = false;
 		this.storyTexts = [];
 	}
@@ -32,6 +32,7 @@ class Game
 	tick()
 	{
 		this.ticks++;
+		this.updateGamePhase();
 		this.screen.tick();
 	}
 	
@@ -61,8 +62,37 @@ class Game
 		this.setActivePlace("home");
 		this.setGamePhase("place");
 		this.switchScreen('place');
+	}
+	
+	updateGamePhase(forced)
+	{
+		let tmp, enemiesAlive;
 		
-		if (!this.hero1)
+		forced = nvl(forced, false);
+		
+		if (this.enemyParty.length > 0)
+		{
+			enemiesAlive = false;
+			
+			for (tmp of this.enemyParty)
+			{
+				if (!tmp.dead)
+				{
+					enemiesAlive = true;
+					break;
+				}
+			}
+			
+			if (enemiesAlive)
+			{
+				this.setGamePhase("encounter", forced);
+			}
+			else
+			{
+				this.setGamePhase("encounter-done", forced);
+			}
+		}
+		else
 		{
 			this.hero1 = new ObjCharacter();
 			this.screens['place'].objects['character_hero0'].characterObj = this.hero1;
@@ -96,22 +126,25 @@ class Game
 		this.storyTexts.push(text);
 	}
 	
-	setGamePhase(phase)
+	setGamePhase(phase, forced)
 	{
+		if (this.gamePhase == phase && !nvl(forced, false))
+		{
+			return;
+		}
+		
 		this.gamePhase = phase;
 		
 		switch (this.gamePhase)
 		{
 			case "place":
-				_gfx.setBackgroundColor(this.activePlace.background);
 			break;
 			
 			case "encounter":
-				_gfx.setBackgroundColor("#bb7700");
 			break;
 		}
 		
-		this.screens['place'].updatePhase();
+		this.screens['place'].updateGamePhase();
 	}
 	
 	update()
