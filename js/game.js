@@ -204,8 +204,10 @@ class Game
 	{
 		let a;
 		
-		a = new ObjPlace("home", "Home", "cover_home", 100);
-		a = new ObjPlace("forest", "Forest", "cover_forest", 500);
+		a = new ObjPlace("home", "Home", "cover_home", 100, 32, 33);
+		a.unlocked = true;
+		
+		a = new ObjPlace("forest", "Forest", "cover_forest", 500, 99, 28);
 		a.enemyGroups.push(new EnemyGroup("enemy1", 1, 0.5));
 		
 		a = new ObjDoor("home", "forest", 0.5, true);

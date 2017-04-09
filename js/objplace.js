@@ -56,7 +56,7 @@ class EnemyGroup
 
 class ObjPlace
 {
-	constructor(name, displayName, coverSpriteName, progressNeeded)
+	constructor(name, displayName, coverSpriteName, progressNeeded, mapX, mapY)
 	{
 		this.name = nvl(name, "");
 		this.displayName = nvl(displayName, "Unnamed place");
@@ -65,8 +65,8 @@ class ObjPlace
 		this.progressValue = 0;
 		this.doorUnlocks = [];
 		this.enemyGroups = [];
-		this.mapX = 0;
-		this.mapY = 0;
+		this.mapX = nvl(mapX, 0);
+		this.mapY = nvl(mapY, 0);
 		this.unlocked = false;
 		this.active = false;
 		this.background = "#006622";
