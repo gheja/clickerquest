@@ -22,6 +22,26 @@ class ScreenPlace extends Screen2
 	{
 	}
 	
+	clickRest()
+	{
+		let tmp, a;
+		
+		for (a of _game.heroParty)
+		{
+			if (!a.dead)
+			{
+				tmp = a.action;
+				
+				a.action = "rest";
+				a.turnPrepare();
+				a.turnAction();
+				a.turnFinish();
+				
+				a.action = tmp;
+			}
+		}
+	}
+	
 	clickInventory()
 	{
 	}
@@ -44,25 +64,91 @@ class ScreenPlace extends Screen2
 		_game.switchScreen('menu');
 	}
 	
-	updatePhase()
+	updatePartyGfx()
 	{
-		switch (_game.phase)
+		let a, i;
+		
+		for (i=0; i<6; i++)
 		{
-			case "none":
-			case "place":
+			this.objects["character_hero" + i].characterObj = null;
+			this.objects["character_hero" + i].hidden = true;
+			this.objects["character_enemy" + i].characterObj = null;
+			this.objects["character_enemy" + i].hidden = true;
+		}
+		
+		i = 0;
+		for (a of _game.heroParty)
+		{
+			if (a == null)
+			{
+				continue;
+			}
+			
+			this.objects["character_hero" + i].characterObj = a;
+			this.objects["character_hero" + i].hidden = false;
+			
+			i++;
+		}
+		
+		i = 0;
+		for (a of _game.enemyParty)
+		{
+			if (a == null)
+			{
+				continue;
+			}
+			
+			this.objects["character_enemy" + i].characterObj = a;
+			this.objects["character_enemy" + i].hidden = false;
+			
+			i++;
+		}
+	}
+	
+	updateGamePhase()
+	{
+		switch (_game.gamePhase)
+		{
+			case "normal":
 				this.objects["button_run"].disabled = true;
 				this.objects["button_explore"].disabled = false;
 				this.objects["button_flee"].disabled = true;
 				this.objects["button_inventory"].disabled = false;
 				this.objects["button_map"].disabled = false;
+				
+				this.objects["button_flee"].hidden = true;
+				this.objects["button_rest"].hidden = false;
+				
+				if (_game.activePlace)
+				{
+					_gfx.setBackgroundColor(_game.activePlace.background);
+				}
 			break;
 			
 			case "encounter":
+				this.objects["button_run"].disabled = false;
+				this.objects["button_explore"].disabled = true;
+				this.objects["button_flee"].disabled = false;
+				this.objects["button_inventory"].disabled = false;
+				this.objects["button_map"].disabled = true;
+				
+				this.objects["button_flee"].hidden = false;
+				this.objects["button_rest"].hidden = true;
+				
+				_gfx.setBackgroundColor("#bb7700");
+			break;
+			
+			case "encounter-done":
 				this.objects["button_run"].disabled = true;
 				this.objects["button_explore"].disabled = false;
 				this.objects["button_flee"].disabled = true;
 				this.objects["button_inventory"].disabled = false;
-				this.objects["button_map"].disabled = true;
+				this.objects["button_map"].disabled = false;
+				
+				this.objects["button_flee"].hidden = true;
+				this.objects["button_rest"].hidden = false;
+				
+				_gfx.setBackgroundColor("#aa5500");
 			break;
 		}
 	}
@@ -80,6 +166,7 @@ class ScreenPlace extends Screen2
 		this.objects["button_run"] = new GfxButton(0, 243, 60, "Start turn", this.clickStartTurn.bind(this));
 		this.objects["button_explore"] = new GfxButton(62, 243, 40, "Explore", this.clickExplore.bind(this));
 		this.objects["button_flee"] = new GfxButton(104, 243, 40, "Flee", this.clickFlee.bind(this));
+		this.objects["button_rest"] = new GfxButton(104, 243, 40, "Rest", this.clickRest.bind(this));
 		this.objects["button_inventory"] = new GfxButton(146, 243, 58, "Inventory", this.clickInventory.bind(this));
 		this.objects["button_map"] = new GfxButton(206, 243, 40, "Map", this.clickMap.bind(this));
 		this.objects["button_back"] = new GfxButton(248, 243, 40, "Menu", this.clickMenu.bind(this));
@@ -94,18 +181,6 @@ class ScreenPlace extends Screen2
 			this.objects["character_hero" + i] = new GfxCharacter(i, null);
 			this.objects["character_enemy" + i] = new GfxEnemy(i, null);
 		}
-		
-		this.hero1.equipment.weapon = new ItemFirstSword();
-		this.hero1.equipment.shield = new ItemFirstShield();
-		this.hero1.target = this.enemy;
-		this.hero1.ownParty = [ this.hero1 ];
-		this.hero1.targetParty = [ this.enemy ];
-		
-		this.enemy.equipment.weapon = new ItemFirstSword();
-		this.enemy.equipment.shield = new ItemFirstShield();
-		this.enemy.target = this.hero1;
-		this.enemy.ownParty = [ this.enemy ];
-		this.enemy.targetParty = [ this.hero1 ];
 	}
 	
 	tick()
