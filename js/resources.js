@@ -73,6 +73,9 @@ const GRAPHICS = [
 	[ "action_invalid", 237, 19, 30, 9 ],
 	
 	[ "map", 1000, 0, 288, 200 ],
+	[ "map_marker_locked", 290, 39, 18, 18 ],
+	[ "map_marker_unlocked", 309, 39, 18, 18 ],
+	[ "map_marker_current", 328, 39, 18, 18 ],
 ];
 
 const SONGS = [
