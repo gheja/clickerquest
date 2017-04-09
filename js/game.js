@@ -47,7 +47,7 @@ class Game
 		{
 			if (a.name == name)
 			{
-				this.activePlace = name;
+				this.activePlace = a;
 				return;
 			}
 		}
