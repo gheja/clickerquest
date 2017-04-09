@@ -152,7 +152,12 @@ class GfxCharacter extends GfxBase
 	
 	checkClick(x, y)
 	{
-		var i;
+		let i;
+		
+		if (this.characterObj == null)
+		{
+			return;
+		}
 		
 		for (i in this.gfxObjects)
 		{
