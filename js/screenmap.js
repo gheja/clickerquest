@@ -19,6 +19,24 @@ class ScreenMap extends Screen2
 		_game.switchScreen("place");
 	}
 	
+	clickMapMarker(placeName)
+	{
+		let a;
+		
+		for (a of _game.places)
+		{
+			if (a.name == placeName)
+			{
+				if (a.unlocked)
+				{
+					_game.setActivePlace(placeName);
+					_game.switchScreen("place");
+				}
+				return;
+			}
+		}
+	}
+	
 	init()
 	{
 		let a;
@@ -31,6 +49,10 @@ class ScreenMap extends Screen2
 		for (a of _game.places)
 		{
 			this.objects["marker_place_" + a.name] = new GfxImage("map_marker_locked", this.objects["map"].x + a.mapX - 9, this.objects["map"].y + a.mapY - 9);
+			this.objects["marker_place_" + a.name].width = 18;
+			this.objects["marker_place_" + a.name].height = 18;
+			this.objects["marker_place_" + a.name].clickable = true;
+			this.objects["marker_place_" + a.name].clickCallback = this.clickMapMarker.bind(this, a.name);
 			this.objects["label_place_" + a.name] = new GfxLabel(this.objects["map"].x + a.mapX, this.objects["map"].y + a.mapY + 16, "center", a.displayName);
 		}
 	}
