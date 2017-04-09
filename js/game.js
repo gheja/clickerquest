@@ -15,6 +15,7 @@ class Game
 		this.places = [];
 		this.activePlace = null;
 		this.phase = "none";
+		this.newClick = false;
 	}
 	
 	resetTime()
@@ -98,6 +99,8 @@ class Game
 		this.draw();
 		_profiler.mark();
 		_profiler.draw();
+		
+		this.newClick = false;
 	}
 	
 	start()
@@ -126,6 +129,8 @@ class Game
 	
 	onClick(event)
 	{
+		this.newClick = true;
+		
 		if (this.firstClick)
 		{
 			this.firstClick = false;
