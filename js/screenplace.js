@@ -35,7 +35,8 @@ class ScreenPlace extends Screen2
 	{
 		this.hideHover();
 		_game.addStoryText("You are now at " + _game.activePlace.displayName + ".");
-		_gfx.setBackgroundColor(_game.activePlace.background);
+		_game.updateGamePhase(true);
+		this.updatePartyGfx();
 	}
 	
 	clickMenu()

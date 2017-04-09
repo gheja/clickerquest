@@ -27,9 +27,10 @@ class ScreenMenu extends Screen2
 	
 	enter()
 	{
+		_soundManager.switchMusic(0);
+		_game.setGamePhase("paused");
 		_gfx.setBackgroundColor("#002255");
 		_gfx.setForegroundColor("#ffffff");
-		_soundManager.switchMusic(0);
 		this.hideHover();
 	}
 	
