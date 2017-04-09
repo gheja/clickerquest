@@ -124,7 +124,7 @@ class ObjPlace
 		{
 			if (!a.unlocked)
 			{
-				if (a.unlockProgressMin >= x)
+				if (x >= a.unlockProgressMin)
 				{
 					if (chance(a.unlockChance))
 					{

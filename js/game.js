@@ -223,6 +223,7 @@ class Game
 		a.enemyGroups.push(new EnemyGroup("enemy1", 1, 0.5));
 		
 		a = new ObjDoor("home", "forest", 0.5, true);
+		a.chance = 0.1;
 		
 		for (a of this.places)
 		{
