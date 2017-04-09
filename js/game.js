@@ -87,6 +87,19 @@ class Game
 	setGamePhase(phase)
 	{
 		this.gamePhase = phase;
+		
+		switch (this.gamePhase)
+		{
+			case "place":
+				_gfx.setBackgroundColor(this.activePlace.background);
+			break;
+			
+			case "encounter":
+				_gfx.setBackgroundColor("#bb7700");
+			break;
+		}
+		
+		this.screens['place'].updatePhase();
 	}
 	
 	update()

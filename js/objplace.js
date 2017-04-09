@@ -69,6 +69,7 @@ class ObjPlace
 		this.mapY = 0;
 		this.unlocked = false;
 		this.active = false;
+		this.background = "#006622";
 		
 		_game.places.push(this);
 	}
