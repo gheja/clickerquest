@@ -189,32 +189,12 @@ class ObjCharacter
 		this.turnHealValue += value;
 	}
 	
-	turnPrepare()
+	clearMessage()
 	{
 		this.message = "";
-		
-		this.turnHitValue = 0;
-		this.turnDefenseValue = 0;
-		this.turnHealValue = 0;
 	}
 	
-	turnAction()
-	{
-		if (this.action == 'attack')
-		{
-			this.doAttack();
-		}
-		else if (this.action == 'defend')
-		{
-			this.doDefend();
-		}
-		else if (this.action == 'rest')
-		{
-			this.doRest();
-		}
-	}
-	
-	turnFinish()
+	update()
 	{
 		let tmp;
 		
@@ -254,11 +234,53 @@ class ObjCharacter
 			this.action = 'invalid';
 			this.message = "";
 		}
+	}
+	
+	turnPrepare()
+	{
+		this.message = "";
 		
+		this.turnHitValue = 0;
+		this.turnDefenseValue = 0;
+		this.turnHealValue = 0;
+		
+		if (this.isEnemy)
+		{
+			this.ownParty = _game.enemyParty;
+			this.targetParty = _game.heroParty;
+		}
+		else
+		{
+			this.ownParty = _game.heroParty;
+			this.targetParty = _game.enemyParty;
+		}
+		
+		this.findTarget();
+	}
+	
+	turnAction()
+	{
+		if (this.action == 'attack')
+		{
+			this.doAttack();
+		}
+		else if (this.action == 'defend')
+		{
+			this.doDefend();
+		}
+		else if (this.action == 'rest')
+		{
+			this.doRest();
+		}
+	}
+	
+	turnFinish()
+	{
+		this.update();
 		
 		// level up?
 		// this.points. ... += ...
 		// this.level = getLevelFromExperiencePoints(this.experiencePoints);
-		console.log(this);
+		// console.log(this);
 	}
 }
