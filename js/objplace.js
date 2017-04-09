@@ -92,7 +92,7 @@ class ObjPlace
 		let x, a;
 		
 		// encounter
-		for (a of this.enemyClasses)
+		for (a of this.enemyGroups)
 		{
 			if (chance(a.chance))
 			{
