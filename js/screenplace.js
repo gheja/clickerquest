@@ -33,6 +33,7 @@ class ScreenPlace extends Screen2
 	enter()
 	{
 		this.hideHover();
+		_game.addStoryText("You are now at " + _game.activePlace.displayName + ".");
 		_gfx.setBackgroundColor(_game.activePlace.background);
 	}
 	
@@ -72,7 +73,7 @@ class ScreenPlace extends Screen2
 		
 		this.objects["cover"] = new GfxImage("cover_place1", 0, 32);
 		
-		this.objects["label_story"] = new GfxLabel(0, 150, "left", "The party has just found a Lorem Ipsum Dolor, nice!");
+		this.objects["label_story"] = new GfxLabel(0, 150, "left", "Story text");
 		
 		this.objects["button_run"] = new GfxButton(0, 243, 60, "Start turn", this.clickStartTurn.bind(this));
 		this.objects["button_explore"] = new GfxButton(62, 243, 40, "Explore", this.clickExplore.bind(this));
@@ -111,6 +112,7 @@ class ScreenPlace extends Screen2
 		{
 			this.objects["map_progress"].max = _game.activePlace.progressNeeded;
 			this.objects["map_progress"].value = _game.activePlace.progressValue;
+			this.objects["label_story"].text = _game.storyTexts[_game.storyTexts.length - 1];
 		}
 		
 		this.objects["beatbar"].setBeatsFromBeater(_game.getTime());

@@ -16,6 +16,7 @@ class Game
 		this.activePlace = null;
 		this.phase = "none";
 		this.newClick = false;
+		this.storyTexts = [];
 	}
 	
 	resetTime()
@@ -82,6 +83,11 @@ class Game
 		tmp.points.experience = getExperiencePointsFromLevel(level);
 		
 		this.enemyParty.push(tmp)
+	}
+	
+	addStoryText(text)
+	{
+		this.storyTexts.push(text);
 	}
 	
 	setGamePhase(phase)

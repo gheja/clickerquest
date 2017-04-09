@@ -29,7 +29,7 @@ class ObjDoor
 			}
 		}
 		
-		// _game.log("The party just found a door.");
+		_game.addStoryText("You have found a door that leads to an unvisited place.");
 	}
 }
 
