@@ -76,8 +76,9 @@ class ObjCharacter
 		this.turnDefenseValue = 0;
 		this.turnHealValue = 0;
 		
+		this.items = [];
 		this.equipment = {
-			rest: new ItemRest(),
+			rest: new ObjItemRest(),
 			weapon: null,
 			helmet: null,
 			armor: null,
@@ -87,10 +88,13 @@ class ObjCharacter
 			ring3: null
 		};
 		
+		this.isEnemy = false;
 		this.target = null;
 		this.ownParty = [];
 		this.targetParty = [];
 		this.message = "";
+		
+		this.turnFinish();
 	}
 	
 	cycleAction()
@@ -102,6 +106,41 @@ class ObjCharacter
 			if (this.action == this.validActions[i])
 			{
 				this.action = this.validActions[(i + 1) % this.validActions.length];
+				break;
+			}
+		}
+	}
+	
+	equipBestItems()
+	{
+		let a;
+		// TODO: now it equips the first
+		
+		for (a of this.items)
+		{
+			if (a.itemClass == ITEM_CLASS_WEAPON && !this.equipment["weapon"])
+			{
+				this.equipment["weapon"] = a;
+			}
+			else if (a.itemClass == ITEM_CLASS_SHIELD && !this.equipment["shield"])
+			{
+				this.equipment["shield"] = a;
+			}
+		}
+	}
+	
+	findTarget()
+	{
+		let a;
+		
+		this.target = null;
+		
+		// find the first available target
+		for (a of this.targetParty)
+		{
+			if (!a.dead)
+			{
+				this.target = a;
 				break;
 			}
 		}

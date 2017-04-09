@@ -17,6 +17,8 @@ class Game
 		this.gamePhase = "none";
 		this.newClick = false;
 		this.storyTexts = [];
+		this.heroParty = [];
+		this.enemyParty = [];
 	}
 	
 	resetTime()
@@ -39,6 +41,12 @@ class Game
 	draw()
 	{
 		this.screen.draw();
+	}
+	
+	clearEnemyParty()
+	{
+		this.enemyParty.length = 0;
+		this.updateParties();
 	}
 	
 	setActivePlace(name)
@@ -94,31 +102,84 @@ class Game
 		}
 		else
 		{
-			this.hero1 = new ObjCharacter();
-			this.screens['place'].objects['character_hero0'].characterObj = this.hero1;
+			this.setGamePhase("normal", forced);
 		}
 	}
 	
 	startTurn()
 	{
-		this.hero1.turnPrepare();
-		this.enemy.turnPrepare();
+		let a;
 		
-		this.hero1.turnAction();
-		this.enemy.turnAction();
+		for (a of this.heroParty)
+		{
+			a.turnPrepare();
+		}
+		for (a of this.enemyParty)
+		{
+			a.turnPrepare();
+		}
 		
-		this.hero1.turnFinish();
-		this.enemy.turnFinish();
+		for (a of this.heroParty)
+		{
+			a.turnAction();
+		}
+		for (a of this.enemyParty)
+		{
+			a.turnAction();
+		}
+		
+		for (a of this.heroParty)
+		{
+			a.turnFinish();
+		}
+		for (a of this.enemyParty)
+		{
+			a.turnFinish();
+		}
 	}
 	
-	addEnemy(className, level)
+	updateParties()
 	{
 		let tmp;
 		
-		tmp = new window[className](); // eh :)
-		tmp.points.experience = getExperiencePointsFromLevel(level);
+		for (tmp of this.heroParty)
+		{
+			tmp.clearMessage();
+		}
 		
-		this.enemyParty.push(tmp)
+		for (tmp of this.enemyParty)
+		{
+			tmp.clearMessage();
+		}
+		
+		this.screens["place"].updatePartyGfx();
+	}
+	
+	createCharacter(className, level, items)
+	{
+		let character, tmp;
+		
+		character = new className.constructor();
+		character.points.experience = getExperiencePointsFromLevel(level);
+		for (tmp of items)
+		{
+			character.items.push(new tmp.constructor());
+		}
+		
+		character.equipBestItems();
+		
+		return character;
+	}
+	
+	addEnemy(className, level, items)
+	{
+		let tmp;
+		
+		tmp = this.createCharacter(className, level, items);
+		tmp.isEnemy = true;
+		
+		this.enemyParty.push(tmp);
+		this.updateParties();
 	}
 	
 	addStoryText(text)
@@ -253,10 +314,18 @@ class Game
 		a.unlocked = true;
 		
 		a = new ObjPlace("forest", "Forest", "cover_forest", 500, 99, 28);
-		a.enemyGroups.push(new EnemyGroup("enemy1", 1, 0.5));
+		a.enemyGroups.push(new EnemyGroup(new ObjEnemyFirst(), 1, [ new ObjItemFirstSword() ], 0.05));
 		
 		a = new ObjDoor("home", "forest", 0.5, true);
 		a.unlockChance = 0.1;
+		a.unlock();
+		
+		a = new ObjCharacter();
+		a.items.push(new ObjItemFirstSword());
+		a.items.push(new ObjItemFirstShield());
+		a.equipBestItems();
+		
+		this.heroParty.push(a);
 		
 		for (a of this.places)
 		{

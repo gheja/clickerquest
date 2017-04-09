@@ -1,6 +1,6 @@
 "use strict";
 
-class Item
+class ObjItem
 {
 	constructor()
 	{
@@ -37,7 +37,7 @@ class Item
 			user[event](value);
 		}
 		
-		if (this.effectsTarget)
+		if (this.effectsTarget && target != null)
 		{
 			target[event](value);
 		}
@@ -95,7 +95,7 @@ class Item
 	}
 }
 
-class ItemRest extends Item
+class ObjItemRest extends ObjItem
 {
 	constructor()
 	{
@@ -107,7 +107,29 @@ class ItemRest extends Item
 	}
 }
 
-class ItemFirstSword extends Item
+class ObjItemWeapon extends ObjItem
+{
+	constructor()
+	{
+		super();
+		
+		this.itemClass = ITEM_CLASS_WEAPON;
+		this.effectsTarget = true;
+	}
+}
+
+class ObjItemShield extends ObjItem
+{
+	constructor()
+	{
+		super();
+		
+		this.itemClass = ITEM_CLASS_SHIELD;
+		this.effectsUser = true;
+	}
+}
+
+class ObjItemFirstSword extends ObjItemWeapon
 {
 	constructor()
 	{
@@ -116,13 +138,12 @@ class ItemFirstSword extends Item
 		this.progressPoints = 3;
 		
 		this.weaponClass = WEAPON_CLASS_ONE_HANDED;
-		this.effectsTarget = true;
 		this.baseDamageMin = 3;
 		this.baseDamageMax = 7;
 	}
 }
 
-class ItemFirstShield extends Item
+class ObjItemFirstShield extends ObjItemShield
 {
 	constructor()
 	{
@@ -130,7 +151,6 @@ class ItemFirstShield extends Item
 		
 		this.progressPoints = 3;
 		
-		this.effectsUser = true;
 		this.baseDefenseMin = 3;
 		this.baseDefenseMax = 7;
 	}

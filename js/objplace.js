@@ -35,17 +35,17 @@ class ObjDoor
 
 class EnemyGroup
 {
-	constructor(className, level, chance)
+	constructor(className, level, items, chance)
 	{
 		this.className = nvl(className, "");
 		this.level = nvl(level, 1);
 		this.chance = nvl(chance, 1);
+		this.items = items;
 	}
 	
 	call()
 	{
-		_game.addEnemy(this.className, this.level);
-		_game.startEncounter();
+		_game.addEnemy(this.className, this.level, this.items);
 	}
 	
 	flee()

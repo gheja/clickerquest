@@ -14,6 +14,7 @@ class ScreenPlace extends Screen2
 	
 	clickExplore()
 	{
+		_game.clearEnemyParty();
 		_game.activePlace.explore();
 	}
 	
