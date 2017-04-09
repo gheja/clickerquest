@@ -61,6 +61,12 @@ class Game
 		this.setActivePlace("home");
 		this.setGamePhase("place");
 		this.switchScreen('place');
+		
+		if (!this.hero1)
+		{
+			this.hero1 = new ObjCharacter();
+			this.screens['place'].objects['character_hero0'].characterObj = this.hero1;
+		}
 	}
 	
 	startTurn()
