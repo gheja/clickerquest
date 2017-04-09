@@ -4,15 +4,7 @@ class GfxCharacter extends GfxBase
 {
 	constructor(n, characterObj)
 	{
-		let x, y;
-		
-		x = (n % 3) * 97;
-		y = Math.floor(n / 3) * 44 + 155;
-		
-		super(x, y, 96, 40);
-		
-		this.x = x;
-		this.y = y;
+		super(0, 0, 96, 40);
 		
 		this.characterObj = characterObj;
 		
@@ -35,6 +27,8 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["border_overlay"] = new GfxImage("portrait_common_hit");
 		this.gfxObjects["label_overlay"] = new GfxLabel(0, 0, 'center', '+100');
 		this.gfxObjects["label_overlay"].inverted = true;
+		
+		this.moveToSlot(n);
 	}
 	
 	onCycleAction()
@@ -80,6 +74,16 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["border_overlay"].y = this.y;
 		this.gfxObjects["label_overlay"].x = this.x + 15;
 		this.gfxObjects["label_overlay"].y = this.y + 11;
+	}
+	
+	moveToSlot(n)
+	{
+		let x, y;
+		
+		x = (n % 3) * 97;
+		y = Math.floor(n / 3) * 44 + 155;
+		
+		this.move(x, y);
 	}
 	
 	update()
@@ -169,8 +173,15 @@ class GfxCharacter extends GfxBase
 	{
 		let i;
 		
-		this.move(this.x, this.y);
-		this.update();
+		if (this.characterObj == null)
+		{
+			return;
+		}
+		
+		if (_game.newClick)
+		{
+			this.update();
+		}
 		
 		for (i in this.gfxObjects)
 		{
