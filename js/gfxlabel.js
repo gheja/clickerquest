@@ -26,6 +26,12 @@ class GfxLabel extends GfxBase
 		_gfx.finalCtx.font = (16 * _gfx.z) + "px " + FONT_NAME;
 		_gfx.finalCtx.textAlign = this.align;
 		
+		// convert the text to string
+		if (typeof this.text !== 'string')
+		{
+			this.text = "" + this.text;
+		}
+		
 		tmp = this.text.split('\n');
 		for (i in tmp)
 		{
