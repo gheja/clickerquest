@@ -27,11 +27,13 @@ class ScreenPlace extends Screen2
 	
 	clickMap()
 	{
+		_game.switchScreen("map");
 	}
 	
 	enter()
 	{
 		this.hideHover();
+		_gfx.setBackgroundColor(_game.activePlace.background);
 	}
 	
 	clickMenu()

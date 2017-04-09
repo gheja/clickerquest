@@ -71,6 +71,8 @@ const GRAPHICS = [
 	[ "action_rest", 175, 19, 30, 9 ],
 	[ "action_heal", 206, 19, 30, 9 ],
 	[ "action_invalid", 237, 19, 30, 9 ],
+	
+	[ "map", 1000, 0, 288, 200 ],
 ];
 
 const SONGS = [

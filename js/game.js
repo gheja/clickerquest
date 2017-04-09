@@ -240,6 +240,7 @@ class Game
 		this.screens['calibration'] = new ScreenCalibration();
 		this.screens['menu'] = new ScreenMenu();
 		this.screens['place'] = new ScreenPlace();
+		this.screens['map'] = new ScreenMap();
 		
 		for (i in this.screens)
 		{
