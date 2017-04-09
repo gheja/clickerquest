@@ -38,8 +38,10 @@ class GfxBase
 	{
 		if (this.checkClick(x, y))
 		{
-			this.click();
-			return true;
+			if (this.click())
+			{
+				return true;
+			}
 		}
 		
 		return false;
@@ -64,17 +66,19 @@ class GfxBase
 	
 	click()
 	{
-		if (!this.clickable)
+		if (!this.clickable || this.hidden || this.disabled)
 		{
-			return;
+			return false;
 		}
 		
 		if (this.clickCallback === null)
 		{
-			return;
+			return false;
 		}
 		
 		this.clickCallback.call();
+		
+		return true;
 	}
 	
 	drawDefault()
