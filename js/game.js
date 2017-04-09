@@ -60,7 +60,18 @@ class Game
 		this.setActivePlace("home");
 		this.setGamePhase("place");
 		this.switchScreen('place');
-		_gfx.setBackgroundColor("#bb7700");
+	}
+	
+	startTurn()
+	{
+		this.hero1.turnPrepare();
+		this.enemy.turnPrepare();
+		
+		this.hero1.turnAction();
+		this.enemy.turnAction();
+		
+		this.hero1.turnFinish();
+		this.enemy.turnFinish();
 	}
 	
 	addEnemy(className, level)

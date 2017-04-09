@@ -9,14 +9,24 @@ class ScreenPlace extends Screen2
 	
 	clickStartTurn()
 	{
-		this.hero1.turnPrepare();
-		this.enemy.turnPrepare();
-		
-		this.hero1.turnAction();
-		this.enemy.turnAction();
-		
-		this.hero1.turnFinish();
-		this.enemy.turnFinish();
+		_game.startTurn();
+	}
+	
+	clickExplore()
+	{
+		_game.activePlace.explore();
+	}
+	
+	clickFlee()
+	{
+	}
+	
+	clickInventory()
+	{
+	}
+	
+	clickMap()
+	{
 	}
 	
 	enter()
