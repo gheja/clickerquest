@@ -13,6 +13,8 @@ class GfxLabel extends GfxBase
 	
 	draw()
 	{
+		let i, tmp;
+		
 		if (!this.inverted)
 		{
 			_gfx.finalCtx.fillStyle = _gfx.foreground;
@@ -23,6 +25,11 @@ class GfxLabel extends GfxBase
 		}
 		_gfx.finalCtx.font = (16 * _gfx.z) + "px " + FONT_NAME;
 		_gfx.finalCtx.textAlign = this.align;
-		_gfx.finalCtx.fillText(this.text, Math.round(this.x * _gfx.z), this.y * _gfx.z);
+		
+		tmp = this.text.split('\n');
+		for (i in tmp)
+		{
+			_gfx.finalCtx.fillText(tmp[i], Math.round(this.x * _gfx.z), (this.y + i * 8) * _gfx.z);
+		}
 	}
 }
