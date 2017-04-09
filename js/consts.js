@@ -23,6 +23,8 @@ var CHARACTER_LEVELS = [
 
 var WEAPON_CLASS_ONE_HANDED = 1;
 var WEAPON_CLASS_TWO_HANDED = 2;
+var ITEM_CLASS_WEAPON = 1;
+var ITEM_CLASS_SHIELD = 2;
 var PLACES = [
 	{
 		"name": "",
