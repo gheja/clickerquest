@@ -91,6 +91,6 @@ class ScreenMap extends Screen2
 			this.update();
 		}
 		
-		this.objects["beatbar"].setBeatsFromBeater(_game.getTime());
+		this.objects["beatbar"].tick();
 	}
 }

@@ -15,9 +15,11 @@ class GfxBeatbar extends GfxBase
 		this._beats = a;
 	}
 	
-	setBeatsFromBeater(now)
+	update()
 	{
-		let beat;
+		let beat, now;
+		
+		now = _game.getTime();
 		
 		this._beats.length = 0;
 		for (beat of _beater.beats)
@@ -58,5 +60,10 @@ class GfxBeatbar extends GfxBase
 		{
 //			_gfx.drawSprite("beatbar_beat_matched", this.x + this.width - 8, this.y);
 		}
+	}
+	
+	tick()
+	{
+		this.update();
 	}
 }

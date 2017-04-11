@@ -48,7 +48,7 @@ class ScreenMenu extends Screen2
 	
 	tick()
 	{
-		this.objects["beatbar"].setBeatsFromBeater(_game.getTime());
+		this.objects["beatbar"].tick();
 		this.objects["logo"].y = Math.floor(30 + Math.pow(Math.cos(_game.ticks * 0.03), 4) * 5);
 	}
 }

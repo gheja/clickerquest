@@ -192,7 +192,7 @@ class ScreenPlace extends Screen2
 			this.objects["label_story"].text = _game.storyTexts[_game.storyTexts.length - 1];
 		}
 		
-		this.objects["beatbar"].setBeatsFromBeater(_game.getTime());
+		this.objects["beatbar"].tick();
 	}
 	
 	clickDefault(x, y)
