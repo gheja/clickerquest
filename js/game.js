@@ -65,6 +65,11 @@ class Game
 		console.log("Could not find place \"" + name + "\".");
 	}
 	
+	resetGame()
+	{
+		this.isNewGame = true;
+	}
+	
 	startGame()
 	{
 		this.setActivePlace("home");

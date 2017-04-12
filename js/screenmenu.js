@@ -25,6 +25,11 @@ class ScreenMenu extends Screen2
 	{
 	}
 	
+	clickReset()
+	{
+		_game.switchScreen("reset");
+	}
+	
 	enter()
 	{
 		_soundManager.switchMusic(0);
@@ -43,12 +48,6 @@ class ScreenMenu extends Screen2
 		this.objects["button2"] = new GfxButton(100, 166, 100, "Calibration", this.clickCalibration.bind(this));
 		this.objects["button3"] = new GfxButton(100, 182, 100, "Options", this.clickCredits.bind(this));
 		this.objects["button4"] = new GfxButton(100, 198, 100, "Credits", this.clickCredits.bind(this));
-		this.objects["button5"] = new GfxButton(100, 224, 100, "Reset progress", this.clickCredits.bind(this));
-	}
-	
-	tick()
-	{
-		this.objects["beatbar"].tick();
-		this.objects["logo"].y = Math.floor(30 + Math.pow(Math.cos(_game.ticks * 0.03), 4) * 5);
+		this.objects["button5"] = new GfxButton(100, 224, 100, "Reset progress", this.clickReset.bind(this));
 	}
 }
