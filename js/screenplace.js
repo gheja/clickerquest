@@ -207,8 +207,8 @@ class ScreenPlace extends Screen2
 		
 		this.objects["cover"] = new GfxImage("cover_place1", 0, 32);
 		
-		this.objects["label_story"] = new GfxLabel(0, 147, "left", "Story text");
-		this.objects["label_story_history"] = new GfxLabel(0, 35, "left", "Story text history");
+		this.objects["label_story"] = new GfxLabel(0, 148, "left", "Story text");
+		this.objects["label_story_history"] = new GfxLabel(0, 36, "left", "Story text history");
 		this.objects["label_story_history"].hidden = true;
 		
 		this.objects["button_run"] = new GfxButton(0, 243, 60, "Start turn", this.clickStartTurn.bind(this));
