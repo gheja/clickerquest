@@ -26,16 +26,20 @@ class ScreenPlace extends Screen2
 		
 		for (a of _game.heroParty)
 		{
-			if (!a.dead)
+			if (!a.dead && !a.fled)
 			{
-				tmp = a.action;
-				
+				a.saveAction();
 				a.action = "rest";
-				a.turnPrepare();
-				a.turnAction();
-				a.turnFinish();
-				
-				a.action = tmp;
+			}
+		}
+		
+		_game.executeTurn();
+		
+		for (a of _game.heroParty)
+		{
+			if (!a.dead && !a.fled)
+			{
+				a.restoreAction();
 			}
 		}
 	}
@@ -130,7 +134,7 @@ class ScreenPlace extends Screen2
 			
 			case "encounter":
 				this.objects["button_run"].disabled = false;
-				this.objects["button_rest"].disabled = true;
+				this.objects["button_rest"].disabled = false;
 				this.objects["button_explore"].disabled = true;
 				this.objects["button_inventory"].disabled = true;
 				this.objects["button_map"].disabled = true;
@@ -143,7 +147,7 @@ class ScreenPlace extends Screen2
 				this.objects["button_rest"].disabled = false;
 				this.objects["button_explore"].disabled = false;
 				this.objects["button_inventory"].disabled = false;
-				this.objects["button_map"].disabled = true;
+				this.objects["button_map"].disabled = false;
 				
 				_gfx.setBackgroundColor("#bb7700");
 			break;

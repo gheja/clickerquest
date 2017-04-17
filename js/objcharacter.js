@@ -70,6 +70,7 @@ class ObjCharacter
 	{
 		this.validActions = [ 'attack', 'defend', 'rest', 'flee' ];
 		this.action = 'attack';
+		this.actionSaved = 'invalid';
 		this.dead = false;
 		this.nameLine1 = "";
 		this.nameLine2 = "";
@@ -363,6 +364,16 @@ class ObjCharacter
 		this.threat += Math.floor(getLevelFromExperiencePoints(this.points.attackSword));
 		
 		this.threatForTurn = this.threat;
+	}
+	
+	saveAction()
+	{
+		this.actionSaved = this.action;
+	}
+	
+	restoreAction()
+	{
+		this.action = this.actionSaved;
 	}
 	
 	reinitStuffs()
