@@ -5,6 +5,8 @@ class ObjEnemy extends ObjCharacter
 	constructor()
 	{
 		super();
+		
+		this.name = "Enemy";
 	}
 }
 

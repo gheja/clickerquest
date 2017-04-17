@@ -119,6 +119,12 @@ class ObjCharacter
 	
 	shuffleNameAndPortrait()
 	{
+		let name;
+		
+		name = _game.names.shift();
+		_game.names.push(name);
+		
+		this.name = name;
 		this.spriteName = "portrait_guy" + randomInt(1, 8);
 	}
 	
@@ -277,7 +283,7 @@ class ObjCharacter
 		
 		if (this.turnHealValue != 0 || this.turnHitValue != 0 || this.turnDefenseValue != 0)
 		{
-			s = "[Character] ";
+			s = this.name + " ";
 			if (this.turnHealValue != 0)
 			{
 				s += "healed " + this.turnHealValue + " HP, ";
@@ -314,7 +320,7 @@ class ObjCharacter
 		
 		if (this.healthValue == 0)
 		{
-			_game.addStoryText("[Character] was defeated.");
+			_game.addStoryText(this.name + " was defeated.");
 			if (this.isEnemy)
 			{
 				this.experiencePointsForKill = Math.floor(this.threat * 2) * _multiplier.getRealMultiplier();
