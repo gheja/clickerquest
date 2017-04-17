@@ -82,7 +82,7 @@ class ScreenPlace extends Screen2
 			this.objects["character_hero" + i].characterObj = null;
 			this.objects["character_hero" + i].hidden = true;
 			this.objects["character_enemy" + i].characterObj = null;
-			this.objects["character_enemy" + i].hidden = true;
+			// this.objects["character_enemy" + i].hidden = true;
 		}
 		
 		i = 0;
@@ -109,7 +109,7 @@ class ScreenPlace extends Screen2
 			}
 			
 			this.objects["character_enemy" + i].characterObj = a;
-			this.objects["character_enemy" + i].hidden = false;
+			// this.objects["character_enemy" + i].hidden = false;
 			
 			i++;
 		}
@@ -176,7 +176,7 @@ class ScreenPlace extends Screen2
 	
 	showStoryHistory()
 	{
-		let a, b, c;
+		let a, b, c, i;
 		
 		a = Math.max(_game.storyTexts.length - 15, 0);
 		b = Math.min(a + 15, _game.storyTexts.length - 1);
@@ -192,13 +192,25 @@ class ScreenPlace extends Screen2
 		this.objects["cover"].hidden = true;
 		this.objects["map_progress"].hidden = true;
 		this.objects["label_story_history"].hidden = false;
+		
+		for (i=0; i<6; i++)
+		{
+			this.objects["character_enemy" + i].hidden = true;
+		}
 	}
 	
 	hideStoryHistory()
 	{
+		let i;
+		
 		this.objects["cover"].hidden = false;
 		this.objects["map_progress"].hidden = false;
 		this.objects["label_story_history"].hidden = true;
+		
+		for (i=0; i<6; i++)
+		{
+			this.objects["character_enemy" + i].hidden = false;
+		}
 	}
 	
 	init()
