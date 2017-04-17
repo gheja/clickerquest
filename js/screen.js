@@ -123,8 +123,6 @@ class Screen2
 		
 		_gfx.clear();
 		
-		this.drawCommonObjects();
-		
 		for (i in this.objects)
 		{
 			if (this.objects[i].hidden == false)
@@ -132,6 +130,8 @@ class Screen2
 				this.objects[i].draw();
 			}
 		}
+		
+		this.drawCommonObjects();
 	}
 	
 	tick()
