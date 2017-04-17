@@ -231,10 +231,9 @@ class ScreenPlace extends Screen2
 			this.objects["character_hero" + i + "_placeholder"].y = this.objects["character_hero" + i].y;
 		}
 		
-		this.objects["label1_guy"] = new GfxLabel(3, 116, "left", "Some wants to join your party.");
-		this.objects["label2_guy"] = new GfxLabel(2, 114, "left", "Some wants to join your party.");
+		this.objects["label_guy"] = new GfxLabel(3, 116, "left", "Some wants to join your party.");
+		this.objects["label_guy"].border = true;
 		this.objects["button_guy"] = new GfxButton(2, 117, 40, "Okay!", this.clickGuyButton.bind(this));
-		this.objects["label1_guy"].inverted = true;
 	}
 	
 	tick()
@@ -258,8 +257,7 @@ class ScreenPlace extends Screen2
 			this.objects["label_story"].text = _game.storyTexts[_game.storyTexts.length - 1];
 		}
 		
-		this.objects["label1_guy"].hidden = true;
-		this.objects["label2_guy"].hidden = true;
+		this.objects["label_guy"].hidden = true;
 		this.objects["button_guy"].hidden = true;
 		
 		if (_game.gamePhase == "normal")
@@ -280,8 +278,7 @@ class ScreenPlace extends Screen2
 					
 					if (!found)
 					{
-						this.objects["label1_guy"].hidden = false;
-						this.objects["label2_guy"].hidden = false;
+						this.objects["label_guy"].hidden = false;
 						this.objects["button_guy"].hidden = false;
 					}
 				}

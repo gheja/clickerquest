@@ -54,6 +54,7 @@ class ScreenMap extends Screen2
 			this.objects["marker_place_" + a.name].clickable = true;
 			this.objects["marker_place_" + a.name].clickCallback = this.clickMapMarker.bind(this, a.name);
 			this.objects["label_place_" + a.name] = new GfxLabel(this.objects["map"].x + a.mapX, this.objects["map"].y + a.mapY + 16, "center", a.displayName);
+			this.objects["label_place_" + a.name].border = true;
 		}
 	}
 	
