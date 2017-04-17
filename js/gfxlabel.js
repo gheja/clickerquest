@@ -17,6 +17,9 @@ class GfxLabel extends GfxBase
 	{
 		let i, x, y, tmp;
 		
+		// TODO: should this be in tick()?
+		this.padY = -8 * this.scale + 2;
+		
 		_gfx.finalCtx.font = (16 * _gfx.z * this.scale) + "px " + FONT_NAME;
 		_gfx.finalCtx.textAlign = this.align;
 		
