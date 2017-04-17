@@ -15,8 +15,7 @@ class GfxEnemy extends GfxBase
 		this.gfxObjects["icon_health"] = new GfxImage("icon_health");
 		this.gfxObjects["bar_health"] = new GfxBar(0, 0, 51, 3, 0, 0, 2);
 		this.gfxObjects["label_health"] = new GfxLabel(0, 0, 'left', '1-2');
-		this.gfxObjects["label_name_line1"] = new GfxLabel(0, 0, 'left', 'Enemy name');
-		this.gfxObjects["label_name_line2"] = new GfxLabel(0, 0, 'left', 'goes here');
+		this.gfxObjects["label_name"] = new GfxLabel(0, 0, 'left', 'Enemy name');
 		this.gfxObjects["label_level"] = new GfxLabel(0, 0, 'left', 'Level 11');
 		this.gfxObjects["label_threat"] = new GfxLabel(0, 0, 'right', 'T000');
 		
@@ -43,10 +42,8 @@ class GfxEnemy extends GfxBase
 		this.gfxObjects["portrait"].y = this.y;
 		this.gfxObjects["border"].x = this.x;
 		this.gfxObjects["border"].y = this.y;
-		this.gfxObjects["label_name_line1"].x = this.x - 63;
-		this.gfxObjects["label_name_line1"].y = this.y + 5;
-		this.gfxObjects["label_name_line2"].x = this.x - 63;
-		this.gfxObjects["label_name_line2"].y = this.y + 12;
+		this.gfxObjects["label_name"].x = this.x - 63;
+		this.gfxObjects["label_name"].y = this.y + 5;
 		this.gfxObjects["label_level"].x = this.x - 63;
 		this.gfxObjects["label_level"].y = this.y + 19;
 		this.gfxObjects["label_threat"].x = this.x - 3;
