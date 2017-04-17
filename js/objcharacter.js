@@ -256,7 +256,7 @@ class ObjCharacter
 	
 	applyTurnStuffs()
 	{
-		let tmp;
+		let tmp, s;
 		
 		if (this.dead || this.fled)
 		{
@@ -274,6 +274,26 @@ class ObjCharacter
 		if (tmp != 0)
 		{
 			this.message = (tmp > 0 ? "+" : "-") + Math.abs(tmp);
+		}
+		
+		if (this.turnHealValue != 0 || this.turnHitValue != 0 || this.turnDefenseValue != 0)
+		{
+			s = "[Character] ";
+			if (this.turnHealValue != 0)
+			{
+				s += "healed " + this.turnHealValue + " HP, ";
+			}
+			if (this.turnHitValue != 0)
+			{
+				s += "was hit for " + this.turnHitValue + " HP, ";
+			}
+			if (this.turnDefenseValue != 0)
+			{
+				s += "defended " + this.turnDefenseValue + " HP, ";
+			}
+			s += "total " + tmp + " HP.";
+			
+			_game.addStoryText(s);
 		}
 		
 		if (this.equipment.weapon && this.action == 'attack')
@@ -295,10 +315,12 @@ class ObjCharacter
 		
 		if (this.healthValue == 0)
 		{
+			_game.addStoryText("[Character] was defeated.");
 			if (this.isEnemy)
 			{
 				this.experiencePointsForKill = Math.floor(this.threat * 2) * _multiplier.getRealMultiplier();
 				_game.gainExperiencePoints(this.experiencePointsForKill);
+				_game.addStoryText("Party gained " + this.experiencePointsForKill + " XP.");
 			}
 			this.dead = true;
 			this.action = 'invalid';
