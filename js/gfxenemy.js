@@ -89,8 +89,7 @@ class GfxEnemy extends GfxBase
 		
 		this.gfxObjects["portrait"].name = this.characterObj.spriteName;
 		
-		this.gfxObjects["label_name_line1"].text = this.characterObj.nameLine1;
-		this.gfxObjects["label_name_line2"].text = this.characterObj.nameLine2;
+		this.gfxObjects["label_name"].text = this.characterObj.name;
 		this.gfxObjects["label_level"].text = "Level " + getLevelFromExperiencePoints(this.characterObj.points.experience);
 		this.gfxObjects["label_threat"].text = "T" + this.characterObj.threat;
 		

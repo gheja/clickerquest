@@ -72,8 +72,7 @@ class ObjCharacter
 		this.action = 'attack';
 		this.actionSaved = 'invalid';
 		this.dead = false;
-		this.nameLine1 = "";
-		this.nameLine2 = "";
+		this.name = "";
 		this.spriteName = "portrait_hero1";
 		
 		this.points = {
