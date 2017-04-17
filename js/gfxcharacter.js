@@ -22,8 +22,8 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["label_health"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_attack"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_defense"] = new GfxLabel(0, 0, 'left', '1-2');
-		this.gfxObjects["label_level"] = new GfxLabel(0, 0, 'left', 'Level 17');
-		this.gfxObjects["label_threat"] = new GfxLabel(0, 0, 'right', 'T000');
+		this.gfxObjects["label_name"] = new GfxLabel(0, 0, 'left', 'Level 17');
+		this.gfxObjects["label_level_threat"] = new GfxLabel(0, 0, 'right', 'T000');
 		
 		this.gfxObjects["border_overlay"] = new GfxImage("portrait_common_hit");
 		this.gfxObjects["label_overlay"] = new GfxLabel(0, 0, 'center', '+100');
@@ -46,10 +46,10 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["portrait"].y = this.y;
 		this.gfxObjects["border"].x = this.x;
 		this.gfxObjects["border"].y = this.y;
-		this.gfxObjects["label_level"].x = this.x + 32;
-		this.gfxObjects["label_level"].y = this.y + 5;
-		this.gfxObjects["label_threat"].x = this.x + 94;
-		this.gfxObjects["label_threat"].y = this.y + 5;
+		this.gfxObjects["label_name"].x = this.x + 32;
+		this.gfxObjects["label_name"].y = this.y + 5;
+		this.gfxObjects["label_level_threat"].x = this.x + 94;
+		this.gfxObjects["label_level_threat"].y = this.y + 5;
 		this.gfxObjects["bar_xp"].x = this.x + 32;
 		this.gfxObjects["bar_xp"].y = this.y + 6;
 		this.gfxObjects["icon_health"].x = this.x + 32;
@@ -108,8 +108,8 @@ class GfxCharacter extends GfxBase
 		
 		this.gfxObjects["portrait"].name = this.characterObj.spriteName;
 		
-		this.gfxObjects["label_level"].text = "Level " + getLevelFromExperiencePoints(this.characterObj.points.experience);
-		this.gfxObjects["label_threat"].text = "T" + this.characterObj.threat;
+		this.gfxObjects["label_name"].text = this.characterObj.name;
+		this.gfxObjects["label_level_threat"].text = "L" + getLevelFromExperiencePoints(this.characterObj.points.experience) + ",T" + this.characterObj.threat;
 		
 		this.gfxObjects["bar_xp"].value = getLevelValue(this.characterObj.points.experience);
 		this.gfxObjects["bar_xp"].max = getLevelMax(this.characterObj.points.experience);
