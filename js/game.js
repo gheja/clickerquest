@@ -26,6 +26,8 @@ class Game
 		this.commonObjects = [];
 		this.commonObjectsBeat = [];
 		this.commonObjectsLogo = [];
+		
+		this.names = [];
 	}
 	
 	resetTime()
@@ -593,6 +595,9 @@ class Game
 		
 		this.resetTime();
 		this.initCommonObjects();
+		
+		this.names = get_all_variations('(Z,K,W,B,N,En,Ew,An,Ar)(ub,or,er,eer,et,ak)(a,e,o)(r,t,n,w)(,ak,an,un,uk,ux,on,ik,arks,oot,as,ak,ax,ek,es,o,os,on,ok,ox)');
+		array_shuffle(this.names);
 		
 		_multiplier = new Multiplier();
 		

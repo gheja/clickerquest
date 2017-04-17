@@ -254,6 +254,76 @@ function float32trim(input, length)
 	return result;
 }
 
+function get_all_variations(recipe)
+{
+	var i, depth, item, lists, current_list, indexes, variations, finished;
+	
+	lists = [];
+	current_list = [];
+	indexes = [];
+	variations = [];
+	depth = 0;
+	item = '';
+	
+	for (i=0; i<recipe.length; i++)
+	{
+		if (recipe[i] == '(')
+		{
+			current_list = [];
+			item = '';
+		}
+		else if (recipe[i] == ')')
+		{
+			current_list.push(item);
+			lists.push(current_list);
+			indexes.push(0);
+		}
+		else if (recipe[i] == ',')
+		{
+			current_list.push(item);
+			item = '';
+		}
+		else
+		{
+			item += recipe[i];
+		}
+	}
+	
+	finished = 0;
+	while (!finished)
+	{
+		item = '';
+		for (i=0; i<lists.length; i++)
+		{
+			item += lists[i][indexes[i]];
+		}
+		variations.push(item);
+		
+		indexes[lists.length-1]++;
+		
+		for (i=lists.length-1; i>=0; i--)
+		{
+			if (indexes[i] == lists[i].length)
+			{
+				if (i == 0)
+				{
+					finished = 1;
+					break;
+				}
+				indexes[i-1]++;
+				indexes[i] = 0;
+			}
+		}
+	}
+	
+	return variations;
+}
+
+function array_shuffle(array)
+{
+	array.sort(function(a, b) { return Math.random() - 0.5; } );
+}
+
 // window.onerror = _error;
 // DEBUG BEGIN
 function _error(s)
