@@ -258,6 +258,11 @@ class ObjCharacter
 	{
 		let tmp;
 		
+		if (this.dead || this.fled)
+		{
+			return;
+		}
+		
 		this.level = getLevelFromExperiencePoints(this.points.experience);
 		
 		tmp = this.healthValue;
@@ -325,6 +330,11 @@ class ObjCharacter
 	
 	turnAction()
 	{
+		if (this.dead || this.fled)
+		{
+			return;
+		}
+		
 		if (this.action == 'attack')
 		{
 			this.doAttack();
@@ -350,6 +360,11 @@ class ObjCharacter
 	update()
 	{
 		let a, b;
+		
+		if (this.dead || this.fled)
+		{
+			return;
+		}
 		
 		this.equipmentUpdate();
 		
