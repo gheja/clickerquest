@@ -66,7 +66,7 @@ class GfxEnemy extends GfxBase
 		let x, y;
 		
 		x = 255 - Math.floor(n / 3) * 97;
-		y = 99 - (n % 3) * 34;
+		y = 83 - (n % 3) * 34;
 		
 		this.move(x, y);
 	}

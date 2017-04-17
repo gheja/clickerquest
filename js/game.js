@@ -585,7 +585,7 @@ class Game
 		
 		this.commonObjectsBeat["beatbar"] = new GfxBeatbar(0, 2, 108);
 		this.commonObjectsBeat["multiplier"] = new GfxMultiplier(109, 4);
-		this.commonObjectsBeat["label_multiplier"] = new GfxLabel(288, 16, "right", "x1.0");
+		this.commonObjectsBeat["label_multiplier"] = new GfxLabel(288, 14, "right", "x1.0");
 		this.commonObjectsBeat["label_multiplier"].scale = 2;
 	}
 	

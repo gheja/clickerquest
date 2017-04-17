@@ -23,8 +23,7 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["label_attack"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_defense"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_name"] = new GfxLabel(0, 0, 'left', 'Name');
-		this.gfxObjects["label_level_threat"] = new GfxLabel(0, 0, 'left', 'L00 T000');
-		this.gfxObjects["label_level_threat"].border = true;
+		this.gfxObjects["label_level_threat"] = new GfxLabel(0, 0, 'left', 'Level 00, T000');
 		
 		this.gfxObjects["border_overlay"] = new GfxImage("portrait_common_hit");
 		this.gfxObjects["label_overlay"] = new GfxLabel(0, 0, 'center', '+100');
@@ -49,28 +48,28 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["border"].y = this.y;
 		this.gfxObjects["label_name"].x = this.x + 32;
 		this.gfxObjects["label_name"].y = this.y + 5;
-		this.gfxObjects["label_level_threat"].x = this.x + 3;
-		this.gfxObjects["label_level_threat"].y = this.y + 28;
+		this.gfxObjects["label_level_threat"].x = this.x + 32;
+		this.gfxObjects["label_level_threat"].y = this.y + 12;
 		this.gfxObjects["bar_xp"].x = this.x + 32;
-		this.gfxObjects["bar_xp"].y = this.y + 6;
+		this.gfxObjects["bar_xp"].y = this.y + 14;
 		this.gfxObjects["icon_health"].x = this.x + 32;
-		this.gfxObjects["icon_health"].y = this.y + 10;
+		this.gfxObjects["icon_health"].y = this.y + 18;
 		this.gfxObjects["label_health"].x = this.x + 42;
-		this.gfxObjects["label_health"].y = this.y + 15;
+		this.gfxObjects["label_health"].y = this.y + 23;
 		this.gfxObjects["bar_health"].x = this.x + 42;
-		this.gfxObjects["bar_health"].y = this.y + 16;
+		this.gfxObjects["bar_health"].y = this.y + 24;
 		this.gfxObjects["icon_attack"].x = this.x + 32;
-		this.gfxObjects["icon_attack"].y = this.y + 21;
+		this.gfxObjects["icon_attack"].y = this.y + 29;
 		this.gfxObjects["label_attack"].x = this.x + 42;
-		this.gfxObjects["label_attack"].y = this.y + 26;
+		this.gfxObjects["label_attack"].y = this.y + 34;
 		this.gfxObjects["bar_attack"].x = this.x + 42;
-		this.gfxObjects["bar_attack"].y = this.y + 27;
+		this.gfxObjects["bar_attack"].y = this.y + 35;
 		this.gfxObjects["icon_defense"].x = this.x + 32;
-		this.gfxObjects["icon_defense"].y = this.y + 32;
+		this.gfxObjects["icon_defense"].y = this.y + 40;
 		this.gfxObjects["label_defense"].x = this.x + 42;
-		this.gfxObjects["label_defense"].y = this.y + 37;
+		this.gfxObjects["label_defense"].y = this.y + 45;
 		this.gfxObjects["bar_defense"].x = this.x + 42;
-		this.gfxObjects["bar_defense"].y = this.y + 38;
+		this.gfxObjects["bar_defense"].y = this.y + 46;
 		this.gfxObjects["action"].x = this.x + 0;
 		this.gfxObjects["action"].y = this.y + 32;
 		
@@ -85,7 +84,7 @@ class GfxCharacter extends GfxBase
 		let x, y;
 		
 		x = (n % 3) * 97;
-		y = Math.floor(n / 3) * 45 + 153;
+		y = Math.floor(n / 3) * 53 + 137;
 		
 		this.move(x, y);
 	}
@@ -110,7 +109,7 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["portrait"].name = this.characterObj.spriteName;
 		
 		this.gfxObjects["label_name"].text = this.characterObj.name;
-		this.gfxObjects["label_level_threat"].text = "L" + getLevelFromExperiencePoints(this.characterObj.points.experience) + " T" + this.characterObj.threat;
+		this.gfxObjects["label_level_threat"].text = "Level " + getLevelFromExperiencePoints(this.characterObj.points.experience) + ", T" + this.characterObj.threat;
 		
 		this.gfxObjects["bar_xp"].value = getLevelValue(this.characterObj.points.experience);
 		this.gfxObjects["bar_xp"].max = getLevelMax(this.characterObj.points.experience);

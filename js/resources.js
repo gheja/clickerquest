@@ -64,7 +64,7 @@ const GRAPHICS = [
 	[ "portrait_enemy_border_dead", 507, 140, 30, 30 ],
 	[ "portrait_common_hit", 538, 140, 30, 30 ],
 	
-	[ "character_placeholder", 290, 58, 93, 41 ],
+	[ "character_placeholder", 367, 39, 93, 49 ],
 	
 	[ "bar2_full", 75, 10, 4, 8 ],
 	[ "bar2_full_tip", 80, 10, 1, 8 ],

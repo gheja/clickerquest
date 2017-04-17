@@ -205,10 +205,10 @@ class ScreenPlace extends Screen2
 	{
 		let i;
 		
-		this.objects["cover"] = new GfxImage("cover_place1", 0, 32);
+		this.objects["cover"] = new GfxImage("cover_place1", 0, 16);
 		
-		this.objects["label_story"] = new GfxLabel(0, 148, "left", "Story text");
-		this.objects["label_story_history"] = new GfxLabel(0, 36, "left", "Story text history");
+		this.objects["label_story"] = new GfxLabel(0, 132, "left", "Story text");
+		this.objects["label_story_history"] = new GfxLabel(0, 20, "left", "Story text history");
 		this.objects["label_story_history"].hidden = true;
 		
 		this.objects["button_run"] = new GfxButton(0, 243, 60, "Start turn", this.clickStartTurn.bind(this));
@@ -218,7 +218,7 @@ class ScreenPlace extends Screen2
 		this.objects["button_map"] = new GfxButton(206, 243, 40, "Map", this.clickMap.bind(this));
 		this.objects["button_back"] = new GfxButton(248, 243, 40, "Menu", this.clickMenu.bind(this));
 		
-		this.objects["map_progress"] = new GfxBar(0, 133, 288, 8, 100, 70, 3);
+		this.objects["map_progress"] = new GfxBar(0, 117, 288, 8, 100, 70, 3);
 		
 		for (i=0; i<6; i++)
 		{
