@@ -11,6 +11,7 @@ class Game
 		this.ticks = 0;
 		this.firstClick = true;
 		this.startTime = 0;
+		this.gameTime = 0;
 		this.doors = [];
 		this.places = [];
 		this.activePlace = null;
@@ -19,6 +20,12 @@ class Game
 		this.storyTexts = [];
 		this.heroParty = [];
 		this.enemyParty = [];
+		this.isPaused = false;
+		this.isNewGame = true;
+		
+		this.commonObjects = [];
+		this.commonObjectsBeat = [];
+		this.commonObjectsLogo = [];
 	}
 	
 	resetTime()
@@ -26,16 +33,74 @@ class Game
 		this.startTime = Date.now();
 	}
 	
+	updateTime()
+	{
+		this.gameTime = Date.now() - this.startTime;
+	}
+	
 	getTime()
 	{
-		return Date.now() - this.startTime;
+		return this.gameTime;
+	}
+	
+	pause()
+	{
+		this.isPaused = true;
+		this.updateGamePhase();
+	}
+	
+	unpause()
+	{
+		this.isPaused = false;
+		this.updateGamePhase();
+	}
+	
+	tickCharacters()
+	{
+		let tmp;
+		
+		for (tmp of this.heroParty)
+		{
+			tmp.update();
+		}
+		
+		for (tmp of this.enemyParty)
+		{
+			tmp.update();
+		}
 	}
 	
 	tick()
 	{
+		let a, b;
+		
+		this.updateTime();
+		
 		this.ticks++;
 		this.updateGamePhase();
+		this.tickCharacters();
 		this.screen.tick();
+		
+		if (_beater.getNearestBeatStatus() == BEAT_STATUS_MISSED)
+		{
+			_multiplier.decrease();
+			_beater.markNearestBeatProcessed();
+		}
+		
+		if (this.newClick)
+		{
+			if (_beater.getNearestBeatStatus() == BEAT_STATUS_ONGOING)
+			{
+				_multiplier.increase();
+				this.commonObjectsBeat["beatbar"].setStatus("matched");
+			}
+			else
+			{
+				_multiplier.decrease();
+				this.commonObjectsBeat["beatbar"].setStatus("missed");
+			}
+			_beater.markNearestBeatProcessed();
+		}
 	}
 	
 	draw()
@@ -43,10 +108,48 @@ class Game
 		this.screen.draw();
 	}
 	
-	clearEnemyParty()
+	cleanupAfterEncounter()
 	{
+		let tmp, i;
+		
+		// clear enemies
 		this.enemyParty.length = 0;
+		
+		// clear flee markers
+		for (tmp of this.heroParty)
+		{
+			tmp.fled = false;
+			tmp.action = "attack";
+		}
+		
+		// clear dead heroes
+		for (i=this.heroParty.length - 1; i>=0; i--)
+		{
+			if (this.heroParty[i].dead)
+			{
+				this.heroParty.splice(i, 1);
+			}
+		}
+		
 		this.updateParties();
+	}
+	
+	clearFleeStatuses()
+	{
+		for (tmp of this.heroParty)
+		{
+			countHeroes++;
+			
+			if (!tmp.dead)
+			{
+				countHeroesAlive++;
+			}
+			
+			if (!tmp.fled)
+			{
+				countHeroesFighting++;
+			}
+		}
 	}
 	
 	setActivePlace(name)
@@ -70,47 +173,119 @@ class Game
 		this.isNewGame = true;
 	}
 	
+	clearGame()
+	{
+		this.isNewGame = false;
+		this.activePlace = null;
+		this.heroParty.length = 0;
+		this.enemyParty.length = 0;
+		this.places.length = 0;
+		this.doors.length = 0;
+		this.storyTexts.length = 0;
+		this.initMap();
+		
+		this.setActivePlace("home");
+	}
+	
 	startGame()
 	{
-		this.setActivePlace("home");
-		this.switchScreen('place');
+		if (this.isNewGame)
+		{
+			this.clearGame();
+		}
+		
+		this.switchScreen("place");
 	}
 	
 	updateGamePhase(forced)
 	{
-		let tmp, enemiesAlive;
+		let tmp, countHeroes, countHeroesAlive, countHeroesFighting, countEnemies, countEnemiesAlive, countEnemiesFighting;
 		
 		forced = nvl(forced, false);
 		
-		if (this.enemyParty.length > 0)
+		if (this.isPaused)
 		{
-			enemiesAlive = false;
-			
-			for (tmp of this.enemyParty)
+			this.setGamePhase("paused", forced);
+			return;
+		}
+		
+		countHeroes = 0;
+		countHeroesAlive = 0;
+		countHeroesFighting = 0;
+		countEnemies = 0;
+		countEnemiesAlive = 0;
+		countEnemiesFighting = 0;
+		
+		if (this.heroParty.length > 0)
+		{
+			for (tmp of this.heroParty)
 			{
+				countHeroes++;
+				
 				if (!tmp.dead)
 				{
-					enemiesAlive = true;
-					break;
+					countHeroesAlive++;
+				}
+				
+				if (!tmp.fled)
+				{
+					countHeroesFighting++;
 				}
 			}
-			
-			if (enemiesAlive)
+		}
+		
+		if (this.enemyParty.length > 0)
+		{
+			for (tmp of this.enemyParty)
 			{
-				this.setGamePhase("encounter", forced);
+				countEnemies++;
+				
+				if (!tmp.dead)
+				{
+					countEnemiesAlive++;
+				}
+				
+				if (!tmp.fled)
+				{
+					countEnemiesFighting++;
+				}
 			}
-			else
-			{
-				this.setGamePhase("encounter-done", forced);
-			}
+		}
+		
+		if (countHeroesAlive == 0)
+		{
+			this.setGamePhase("dead", forced);
+			return;
 		}
 		else
 		{
-			this.setGamePhase("normal", forced);
+			if (countEnemies > 0)
+			{
+				if (countEnemiesAlive == 0)
+				{
+					this.setGamePhase("encounter-done", forced);
+					return;
+				}
+				else
+				{
+					if (countHeroesFighting == 0)
+					{
+						this.setGamePhase("encounter-fled", forced);
+						return;
+					}
+					else
+					{
+						this.setGamePhase("encounter", forced);
+						return;
+					}
+				}
+			}
 		}
+		
+		this.setGamePhase("normal", forced);
 	}
 	
-	startTurn()
+	executeTurn()
 	{
 		let a;
 		
@@ -159,6 +334,35 @@ class Game
 		this.screens["place"].updatePartyGfx();
 	}
 	
+	gainExperiencePoints(count)
+	{
+		let tmp, a, x;
+		
+		a = 0;
+		for (tmp of this.heroParty)
+		{
+			if (!tmp.dead && !tmp.fled)
+			{
+				a++;
+			}
+		}
+		
+		if (a == 0)
+		{
+			return;
+		}
+		
+		x = Math.floor(count / a);
+		
+		for (tmp of this.heroParty)
+		{
+			if (!tmp.dead && !tmp.fled)
+			{
+				tmp.points.experience += x;
+			}
+		}
+	}
+	
 	createCharacter(className, level, items)
 	{
 		let character, tmp;
@@ -167,6 +371,7 @@ class Game
 		character.points.experience = getExperiencePointsFromLevel(level);
 		for (tmp of items)
 		{
+			// TODO: constructor parameters?!
 			character.items.push(new tmp.constructor());
 		}
 		
@@ -181,6 +386,7 @@ class Game
 		
 		tmp = this.createCharacter(className, level, items);
 		tmp.isEnemy = true;
+		tmp.reinitStuffs();
 		
 		this.enemyParty.push(tmp);
 		this.updateParties();
@@ -198,17 +404,15 @@ class Game
 			return;
 		}
 		
+		console.log(phase);
+		
 		this.gamePhase = phase;
 		
-		switch (this.gamePhase)
+		if (this.isPaused)
 		{
-			case "place":
-			break;
-			
-			case "encounter":
-			break;
+			// _gfx.setForegroundColor("#dddddd");
+			_gfx.setBackgroundColor("#002255");
 		}
-		
 		this.screens['place'].updateGamePhase();
 	}
 	
@@ -285,21 +489,6 @@ class Game
 		}
 	}
 	
-	addHeaderObjects(objects)
-	{
-		objects["cover"] = new GfxImage("cover_splash", 0, 32);
-		objects["logo"] = new GfxImage("logo", 94, 32);
-	}
-	
-	addBeatObjects(objects)
-	{
-		objects["beatbar"] = new GfxBeatbar(0, 2, 108);
-		objects["bar"] = new GfxBar(108, 4, 180, 8, 100, 0);
-		objects["multiplier"] = new GfxMultiplier(109, 14);
-		objects["multiplier"].max = 5;
-		objects["multiplier"].value = 1;
-	}
-	
 	onClickHtmlBody(event)
 	{
 		this.onClick({ clientX: -1, clientY: -1 });
@@ -310,6 +499,31 @@ class Game
 		this.screen.mouseMove(Math.round((event.clientX - _gfx.domLeft) / _gfx.zoom), Math.round((event.clientY - _gfx.domTop) / _gfx.zoom));
 	}
 	
+	addHero(level, sword, shield)
+	{
+		let a;
+		
+		a = new ObjCharacter();
+		a.points.experience = getExperiencePointsFromLevel(level);
+		a.items.push(new ObjItemFirstSword(sword));
+		a.items.push(new ObjItemFirstShield(shield));
+		a.equipBestItems();
+		a.reinitStuffs();
+		
+		this.heroParty.push(a);
+		
+		return a;
+	}
+	
+	addGuyFromPlace()
+	{
+		let a;
+		
+		a = this.addHero(...this.activePlace.guyAtEndOfPlace);
+		a.originPlace = this.activePlace.name;
+		this.updateParties();
+	}
+	
 	initMap()
 	{
 		let a;
@@ -317,19 +531,42 @@ class Game
 		a = new ObjPlace("home", "Home", "cover_home", 100, 32, 33);
 		a.unlocked = true;
 		
-		a = new ObjPlace("forest", "Forest", "cover_forest", 500, 99, 28);
-		a.enemyGroups.push(new EnemyGroup(new ObjEnemyFirst(), 1, [ new ObjItemFirstSword() ], 0.05));
+		a = new ObjPlace("road", "Road", "cover_road", 300, 99, 28);
+		a.enemyGroups.push(new EnemyGroup(new ObjEnemyFirst(), 1, [ new ObjItemFirstSword(4) ], 0.03));
+		a.guyAtEndOfPlace = [ 1, 4, 3 ];
 		
-		a = new ObjDoor("home", "forest", 0.5, true);
+		a = new ObjPlace("foresta", "Forest A", "cover_forest", 500, 170, 29);
+		a.enemyGroups.push(new EnemyGroup(new ObjEnemyFirst(), 3, [ new ObjItemFirstSword(4) ], 0.05));
+		
+		a = new ObjPlace("forestb", "Forest B", "cover_forest", 300, 92, 76);
+		a.enemyGroups.push(new EnemyGroup(new ObjEnemyFirst(), 7, [ new ObjItemFirstSword(4) ], 0.09));
+		a.guyAtEndOfPlace = [ 8, 6, 3 ];
+		
+		a = new ObjPlace("road2", "Road", "cover_road2", 500, 230, 18);
+		a.enemyGroups.push(new EnemyGroup(new ObjEnemyFirst(), 5, [ new ObjItemFirstSword(4) ], 0.03));
+		a.enemyGroups.push(new EnemyGroup(new ObjEnemyFirst(), 3, [ new ObjItemFirstSword(4) ], 0.05));
+		a.guyAtEndOfPlace = [ 3, 4, 2 ];
+		
+		a = new ObjPlace("forestc", "Forest C", "cover_road2", 1000, 230, 62);
+		a.enemyGroups.push(new EnemyGroup(new ObjEnemyFirst(), 7, [ new ObjItemFirstSword(4) ], 0.03));
+		a.enemyGroups.push(new EnemyGroup(new ObjEnemyFirst(), 5, [ new ObjItemFirstSword(4) ], 0.05));
+		
+		a = new ObjDoor("home", "road", 0.5, true);
 		a.unlockChance = 0.1;
-		a.unlock();
 		
-		a = new ObjCharacter();
-		a.items.push(new ObjItemFirstSword());
-		a.items.push(new ObjItemFirstShield());
-		a.equipBestItems();
+		a = new ObjDoor("road", "foresta", 0.5, true);
+		a.unlockChance = 0.1;
 		
-		this.heroParty.push(a);
+		a = new ObjDoor("road", "forestb", 0.7, true);
+		a.unlockChance = 0.1;
+		
+		a = new ObjDoor("foresta", "road2", 0.7, true);
+		a.unlockChance = 0.1;
+		
+		a = new ObjDoor("road2", "forestc", 0.7, true);
+		a.unlockChance = 0.1;
+		
+		this.addHero(1, 4, 2);
 		
 		for (a of this.places)
 		{
@@ -337,11 +574,27 @@ class Game
 		}
 	}
 	
+	initCommonObjects()
+	{
+//		this.commonObjects["tooltip"] = new GfxTooltip();
+		
+		this.commonObjectsLogo["cover"] = new GfxImage("cover_splash", 0, 32);
+		this.commonObjectsLogo["logo"] = new GfxImage("logo", 94, 32);
+		
+		this.commonObjectsBeat["beatbar"] = new GfxBeatbar(0, 2, 108);
+		this.commonObjectsBeat["multiplier"] = new GfxMultiplier(109, 4);
+		this.commonObjectsBeat["label_multiplier"] = new GfxLabel(288, 16, "right", "x1.0");
+		this.commonObjectsBeat["label_multiplier"].scale = 2;
+	}
+	
 	init()
 	{
 		let i;
 		
 		this.resetTime();
+		this.initCommonObjects();
+		
+		_multiplier = new Multiplier();
 		
 		_gfx = new Gfx();
 		_gfx.init();
@@ -362,6 +615,9 @@ class Game
 		this.screens['menu'] = new ScreenMenu();
 		this.screens['place'] = new ScreenPlace();
 		this.screens['map'] = new ScreenMap();
+		this.screens['reset'] = new ScreenReset();
+		this.screens['inventory'] = new ScreenInventory();
+		this.screens['credits'] = new ScreenCredits();
 		
 		for (i in this.screens)
 		{

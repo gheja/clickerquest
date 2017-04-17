@@ -29,7 +29,7 @@ class ObjDoor
 			}
 		}
 		
-		_game.addStoryText("You have found a door that leads to an unvisited place.");
+		_game.addStoryText("You have found a path that leads to an unvisited place.");
 	}
 }
 
@@ -103,7 +103,7 @@ class ObjPlace
 			}
 		}
 		
-		this.progressValue += 1;
+		this.progressValue += 1 * _multiplier.getRealMultiplier();
 		
 		x = this.progressValue / this.progressNeeded;
 		

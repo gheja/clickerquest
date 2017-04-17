@@ -5,6 +5,8 @@ class ScreenMap extends Screen2
 	constructor()
 	{
 		super();
+		
+		this.drawBeats = true;
 	}
 	
 	enter()
@@ -40,8 +42,6 @@ class ScreenMap extends Screen2
 	init()
 	{
 		let a;
-		
-		_game.addBeatObjects(this.objects);
 		
 		this.objects["map"] = new GfxImage("map", 0, 32);
 		this.objects["button_back"] = new GfxButton(248, 243, 40, "Back", this.clickBack.bind(this));
@@ -86,11 +86,11 @@ class ScreenMap extends Screen2
 	
 	tick()
 	{
+		this.tickCommonObjects();
+		
 		if (_game.newClick)
 		{
 			this.update();
 		}
-		
-		this.objects["beatbar"].tick();
 	}
 }

@@ -25,7 +25,7 @@ class SoundManager
 		
 		this.totalPositionSamples = 0;
 		
-		this.beatLookAheadTime = 2000; // milliseconds
+		this.beatLookAheadTime = 3000; // milliseconds
 		this.beatLookAheadSamples = Math.floor(this.beatLookAheadTime / 1000 * 44100);
 		this.beatLookAheadSamplePosition = 0;
 	}
@@ -51,7 +51,11 @@ class SoundManager
 		
 		if (this.songIdToLoad == 0)
 		{
-			this.sounds[this.songIdToLoad].buffer = this.sounds[this.songIdToLoad].buffer.slice(0, 44100);
+			this.sounds[this.songIdToLoad].buffer = this.sounds[this.songIdToLoad].buffer.slice(0, 26460);
+		}
+		if (this.songIdToLoad == 1)
+		{
+			this.sounds[this.songIdToLoad].buffer = this.sounds[this.songIdToLoad].buffer.slice(0, 926100);
 		}
 		this.sounds[this.songIdToLoad].length = this.sounds[this.songIdToLoad].buffer.length;
 		
@@ -82,45 +86,10 @@ class SoundManager
 	{
 		let buffer, length, position, tmp, a, b, c;
 		
-		function findBeatBetween(_this, pos1, pos2)
-		{
-			let a, b, i;
-			
-			pos1 = pos1 % _this.currentSong.length;
-			pos2 = pos2 % _this.currentSong.length;
-			
-			if (pos1 < pos2)
-			{
-				for (a of _this.currentSong.beatsOnSamples)
-				{
-					if (a >= pos1 && a < pos2)
-					{
-						return a - pos1;
-					}
-				}
-			}
-			else
-			{
-				// for overlaps
-				for (a of _this.currentSong.beatsOnSamples)
-				{
-					if (a >= pos1 && a < _this.currentSong.length)
-					{
-						return a - pos1;
-					}
-					else if (a >= 0 && a < pos2)
-					{
-						return _this.currentSong.length - pos1 + a;
-					}
-				}
-			}
-			
-			return null;
-		}
-		
 		if (this.startTime == null)
 		{
 			this.startTime = _game.getTime();
+			console.log(this.startTime);
 		}
 		
 		buffer = e.outputBuffer.getChannelData(0);
@@ -142,22 +111,22 @@ class SoundManager
 			}
 			
 			// beat look-ahead
-			b = this.currentSong.position;
-			while (this.beatLookAheadSamplePosition < this.totalPositionSamples + this.beatLookAheadSamples)
+			b = this.beatLookAheadSamplePosition;
+			while (b < this.totalPositionSamples + this.beatLookAheadSamples)
 			{
-				tmp = 1000;
+				c = b % this.currentSong.length;
 				
-				a = findBeatBetween(this, b, b + tmp);
-				if (a !== null)
+				if (this.currentSong.beatsOnSamples.indexOf(c) !== -1)
 				{
-					c = this.startTime + (this.beatLookAheadSamplePosition + a) / 44100 * 1000;
-					_beater.addBeat(c);
-//					console.log("beat: " + c);
+					_beater.addBeat(this.startTime + b / 44100 * 1000);
+//					console.log([ this.startTime, b, b / 44100 * 1000 ]);
 				}
 				
-				this.beatLookAheadSamplePosition += tmp;
-				b += tmp;
+				b++;
 			}
+			
+			this.beatLookAheadSamplePosition = b;
+			
 		}
 		
 		this.totalPositionSamples += length;
@@ -170,11 +139,12 @@ class SoundManager
 		{
 			this.currentSong = null;
 		}
-		else
+		else if (songId != this.currentSong)
 		{
 			this.currentSong = this.sounds[songId];
 			this.currentSong.position = 0;
 		}
+//		this.startTime = null;
 	}
 	
 	init()
@@ -190,8 +160,15 @@ class SoundManager
 	
 	start()
 	{
+		let i;
+		
 		// TODO: dynamic
-		this.sounds[0].beatsOnSamples = [ 2200 ];
+		this.sounds[0].beatsOnSamples = [ 533 ];
+		this.sounds[1].beatsOnSamples = [];
+		for (i=533; i<926100; i+=26460)
+		{
+			this.sounds[1].beatsOnSamples.push(i);
+		}
 		
 		this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 		this.audioNode = this.audioCtx.createScriptProcessor(1024 * 8, 0, 1);

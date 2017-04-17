@@ -6,6 +6,7 @@ let _body;
 let _gfx;
 let _soundManager;
 let _beater;
+let _multiplier;
 
 function init()
 {

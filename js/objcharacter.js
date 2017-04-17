@@ -2,29 +2,40 @@
 
 function getExperiencePointsFromLevel(level)
 {
-	return CHARACTER_LEVELS[level - 1];
+	level = level - 1;
+	
+	if (level == 0)
+	{
+		return 0;
+	}
+	
+	return 150 * Math.pow(2, level - 1);
 }
 
 function getLevelFromExperiencePoints(points)
 {
 	let i;
 	
-	for (i=0; i<CHARACTER_LEVELS.length; i++)
+	i = 0;
+	
+	while (1)
 	{
-		if (CHARACTER_LEVELS[i] > points)
+		if (150 * Math.pow(2, i) > points)
 		{
 			break;
 		}
+		
+		i++;
 	}
 	
-	return i;
+	return i + 1;
 }
 
 function getLevelValue(points)
 {
 	let level;
 	
-	level = getLevelFromExperiencePoints(points)
+	level = getLevelFromExperiencePoints(points);
 	
 	return points - getExperiencePointsFromLevel(level);
 }
@@ -57,18 +68,21 @@ class ObjCharacter
 {
 	constructor()
 	{
-		this.validActions = [ 'attack', 'defend', 'rest' ];
+		this.validActions = [ 'attack', 'defend', 'rest', 'flee' ];
 		this.action = 'attack';
 		this.dead = false;
-		this.nameLine1 = "Name goes";
-		this.nameLine2 = "here";
+		this.nameLine1 = "";
+		this.nameLine2 = "";
+		this.spriteName = "portrait_hero1";
 		
 		this.points = {
 			experience: 0,
-			attackOneHanded: 0,
-			attackTwoHanded: 0,
-			defense: 0
+			attackSword: 0,
+			attackOthers: 0,
+			defense: 0,
+			special: 0
 		};
+		// TODO: cache levels to prevent multiple use of getLevelFromExperiencePoints()?
 		this.healthValue = 100;
 		this.healthMax = 0;
 		
@@ -93,8 +107,19 @@ class ObjCharacter
 		this.ownParty = [];
 		this.targetParty = [];
 		this.message = "";
+		this.fled = false;
+		this.experiencePointsForKill = 0;
+		this.threat = 0;
+		this.threatForTurn = 0;
+		this.originPlace = null;
 		
+		this.shuffleNameAndPortrait();
 		this.turnFinish();
+	}
+	
+	shuffleNameAndPortrait()
+	{
+		this.spriteName = "portrait_guy" + randomInt(1, 8);
 	}
 	
 	cycleAction()
@@ -131,16 +156,27 @@ class ObjCharacter
 	
 	findTarget()
 	{
-		let a;
+		let a, maxThreat;
 		
 		this.target = null;
+		
+		maxThreat = 0;
 		
 		// find the first available target
 		for (a of this.targetParty)
 		{
-			if (!a.dead)
+			if (!a.dead && !a.fled)
+			{
+				maxThreat = Math.max(maxThreat, a.threatForTurn);
+			}
+		}
+		
+		for (a of this.targetParty)
+		{
+			if (!a.dead && !a.fled && a.threatForTurn == maxThreat)
 			{
 				this.target = a;
+				a.threatForTurn -= 10;
 				break;
 			}
 		}
@@ -159,6 +195,19 @@ class ObjCharacter
 		}
 	}
 	
+	equipmentUpdate()
+	{
+		let i;
+		
+		for (i in this.equipment)
+		{
+			if (this.equipment[i] != null)
+			{
+				this.equipment[i].update(this);
+			}
+		}
+	}
+	
 	doAttack()
 	{
 		this.equipmentApplyEvent('onAttack');
@@ -172,6 +221,16 @@ class ObjCharacter
 	doRest()
 	{
 		this.equipmentApplyEvent('onRest');
+	}
+	
+	doFlee()
+	{
+		this.fled = true;
+		this.action = "invalid";
+	}
+	
+	doHeal()
+	{
 	}
 	
 	applyAttack(value)
@@ -194,7 +253,7 @@ class ObjCharacter
 		this.message = "";
 	}
 	
-	update()
+	applyTurnStuffs()
 	{
 		let tmp;
 		
@@ -213,13 +272,13 @@ class ObjCharacter
 		
 		if (this.equipment.weapon && this.action == 'attack')
 		{
-			if (this.equipment.weapon.weaponClass == WEAPON_CLASS_ONE_HANDED)
+			if (this.equipment.weapon.weaponClass == WEAPON_CLASS_SWORD)
 			{
-				this.points.attackOneHanded += this.equipment.weapon.progressPoints;
+				this.points.attackSword += this.equipment.weapon.progressPoints;
 			}
 			else
 			{
-				this.points.attackTwoHanded += this.equipment.weapon.progressPoints;
+				this.points.attackOthers += this.equipment.weapon.progressPoints;
 			}
 		}
 		
@@ -230,6 +289,11 @@ class ObjCharacter
 		
 		if (this.healthValue == 0)
 		{
+			if (this.isEnemy)
+			{
+				this.experiencePointsForKill = Math.floor(this.threat * 2) * _multiplier.getRealMultiplier();
+				_game.gainExperiencePoints(this.experiencePointsForKill);
+			}
 			this.dead = true;
 			this.action = 'invalid';
 			this.message = "";
@@ -272,10 +336,46 @@ class ObjCharacter
 		{
 			this.doRest();
 		}
+		else if (this.action == 'flee')
+		{
+			this.doFlee();
+		}
+		else if (this.action == 'heal')
+		{
+			this.doHeal();
+		}
+	}
+	
+	update()
+	{
+		let a, b;
+		
+		this.equipmentUpdate();
+		
+		this.threat = 0;
+		
+		this.threat += Math.floor(this.healthMax / 10);
+		
+		if (this.equipment['weapon'])
+		{
+			this.threat += Math.floor(this.equipment['weapon'].baseDamageMax / 5);
+		}
+		this.threat += Math.floor(getLevelFromExperiencePoints(this.points.attackSword));
+		
+		this.threatForTurn = this.threat;
+	}
+	
+	reinitStuffs()
+	{
+		this.turnPrepare();
+		this.applyTurnStuffs();
+		this.healthValue = this.healthMax;
+		this.clearMessage();
 	}
 	
 	turnFinish()
 	{
+		this.applyTurnStuffs();
 		this.update();
 		
 		// level up?

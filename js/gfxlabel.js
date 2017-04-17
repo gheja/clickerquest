@@ -9,6 +9,7 @@ class GfxLabel extends GfxBase
 		this.align = nvl(align, 'left');
 		this.text = nvl(text, 'label');
 		this.inverted = false;
+		this.scale = 1;
 	}
 	
 	draw()
@@ -23,7 +24,7 @@ class GfxLabel extends GfxBase
 		{
 			_gfx.finalCtx.fillStyle = _gfx.background;
 		}
-		_gfx.finalCtx.font = (16 * _gfx.z) + "px " + FONT_NAME;
+		_gfx.finalCtx.font = (16 * _gfx.z * this.scale) + "px " + FONT_NAME;
 		_gfx.finalCtx.textAlign = this.align;
 		
 		// convert the text to string
@@ -35,7 +36,7 @@ class GfxLabel extends GfxBase
 		tmp = this.text.split('\n');
 		for (i in tmp)
 		{
-			_gfx.finalCtx.fillText(tmp[i], Math.round(this.x * _gfx.z), (this.y + i * 8) * _gfx.z);
+			_gfx.finalCtx.fillText(tmp[i], Math.round(this.x * _gfx.z), (this.y + i * 8 * this.scale) * _gfx.z);
 		}
 	}
 }

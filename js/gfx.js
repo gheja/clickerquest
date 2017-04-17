@@ -14,7 +14,7 @@ class Gfx
 		this._spritesheetCanvas = null;
 		this._spritesheetCtx = null;
 		this._spriteStore = {};
-		this.foreground = "#eeeeee";
+		this.foreground = "#ffffff";
 		this.background = "#002255";
 		this.colorsChanged = false;
 		this.domLeft = 0;

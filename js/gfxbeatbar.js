@@ -8,6 +8,7 @@ class GfxBeatbar extends GfxBase
 		
 		this._beats = [];
 		this.status = "normal";
+		this.clearStatusInFrames = 0;
 	}
 	
 	setBeats(a)
@@ -24,6 +25,7 @@ class GfxBeatbar extends GfxBase
 		this._beats.length = 0;
 		for (beat of _beater.beats)
 		{
+//			this._beats.push(beat - now - _beater.soundCorrection - _beater.gfxCorrection);
 			this._beats.push(beat - now);
 		}
 	}
@@ -58,12 +60,34 @@ class GfxBeatbar extends GfxBase
 		}
 		else if (this.status == "matched")
 		{
-//			_gfx.drawSprite("beatbar_beat_matched", this.x + this.width - 8, this.y);
+			_gfx.drawSprite("beatbar_beat_matched", this.x + this.width - 12, this.y);
 		}
+		
+/*
+		if (_beater.getNearestBeatStatus() == BEAT_STATUS_ONGOING)
+		{
+			_gfx.drawSprite("beatbar_beat_matched", this.x + this.width - 12, this.y + 6);
+		}
+*/
+	}
+	
+	setStatus(a)
+	{
+		this.status = a;
+		this.clearStatusInFrames = 6;
 	}
 	
 	tick()
 	{
 		this.update();
+		
+		if (this.clearStatusInFrames > 0)
+		{
+			if (this.clearStatusInFrames == 1)
+			{
+				this.status = "normal";
+			}
+			this.clearStatusInFrames--;
+		}
 	}
 }

@@ -64,6 +64,24 @@ function round2(x)
 	return Math.round(x * 10) / 10;
 }
 
+function roundAndString(x)
+{
+	let result;
+	
+	result = "";
+	
+	if (x < 0)
+	{
+		result += "-";
+	}
+	
+	x = Math.abs(x);
+	
+	result += Math.floor(x) + "." + Math.round((x % 1) * 10);
+	
+	return result;
+}
+
 function sqr(a)
 {
 	return a * a;

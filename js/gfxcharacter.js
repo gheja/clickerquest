@@ -23,6 +23,7 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["label_attack"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_defense"] = new GfxLabel(0, 0, 'left', '1-2');
 		this.gfxObjects["label_level"] = new GfxLabel(0, 0, 'left', 'Level 17');
+		this.gfxObjects["label_threat"] = new GfxLabel(0, 0, 'right', 'T000');
 		
 		this.gfxObjects["border_overlay"] = new GfxImage("portrait_common_hit");
 		this.gfxObjects["label_overlay"] = new GfxLabel(0, 0, 'center', '+100');
@@ -47,6 +48,8 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["border"].y = this.y;
 		this.gfxObjects["label_level"].x = this.x + 32;
 		this.gfxObjects["label_level"].y = this.y + 5;
+		this.gfxObjects["label_threat"].x = this.x + 94;
+		this.gfxObjects["label_threat"].y = this.y + 5;
 		this.gfxObjects["bar_xp"].x = this.x + 32;
 		this.gfxObjects["bar_xp"].y = this.y + 6;
 		this.gfxObjects["icon_health"].x = this.x + 32;
@@ -81,7 +84,7 @@ class GfxCharacter extends GfxBase
 		let x, y;
 		
 		x = (n % 3) * 97;
-		y = Math.floor(n / 3) * 44 + 155;
+		y = Math.floor(n / 3) * 45 + 153;
 		
 		this.move(x, y);
 	}
@@ -94,31 +97,40 @@ class GfxCharacter extends GfxBase
 		{
 			this.gfxObjects["border"].name = "portrait_hero_border_dead";
 		}
+		else if (this.characterObj.fled)
+		{
+			this.gfxObjects["border"].name = "portrait_hero_border_fled";
+		}
 		else
 		{
 			this.gfxObjects["border"].name = "portrait_hero_border";
 		}
 		
-		this.gfxObjects["label_level"].text = "Level " + getLevelFromExperiencePoints(this.characterObj.points.experience);
+		this.gfxObjects["portrait"].name = this.characterObj.spriteName;
 		
+		this.gfxObjects["label_level"].text = "Level " + getLevelFromExperiencePoints(this.characterObj.points.experience);
+		this.gfxObjects["label_threat"].text = "T" + this.characterObj.threat;
+		
+		this.gfxObjects["bar_xp"].value = getLevelValue(this.characterObj.points.experience);
+		this.gfxObjects["bar_xp"].max = getLevelMax(this.characterObj.points.experience);
 		this.gfxObjects["bar_health"].value = this.characterObj.healthValue;
 		this.gfxObjects["bar_health"].max = this.characterObj.healthMax;
-		this.gfxObjects["bar_attack"].value = getLevelValue(this.characterObj.points.attackOneHanded);
-		this.gfxObjects["bar_attack"].max = getLevelMax(this.characterObj.points.attackOneHanded);
+		this.gfxObjects["bar_attack"].value = getLevelValue(this.characterObj.points.attackSword);
+		this.gfxObjects["bar_attack"].max = getLevelMax(this.characterObj.points.attackSword);
 		
 		this.gfxObjects["label_health"].text = this.characterObj.healthValue + "/" + this.characterObj.healthMax;
 		if (this.characterObj.equipment.weapon)
 		{
-			if (this.characterObj.equipment.weapon.weaponClass == WEAPON_CLASS_ONE_HANDED)
+			if (this.characterObj.equipment.weapon.weaponClass == WEAPON_CLASS_SWORD)
 			{
-				tmp = this.characterObj.points.attackOneHanded;
+				tmp = this.characterObj.points.attackSword;
 			}
 			else
 			{
-				tmp = this.characterObj.points.attackOneHanded;
+				tmp = this.characterObj.points.attackOthers;
 			}
 			
-			this.gfxObjects["label_attack"].text = "L" + getLevelFromExperiencePoints(tmp) + " " + this.characterObj.equipment.weapon.baseDamageMin + "-" + this.characterObj.equipment.weapon.baseDamageMax;
+			this.gfxObjects["label_attack"].text = "L" + getLevelFromExperiencePoints(tmp) + " " + this.characterObj.equipment.weapon.realDamageMin + "-" + this.characterObj.equipment.weapon.realDamageMax;
 		}
 		else
 		{
@@ -128,7 +140,14 @@ class GfxCharacter extends GfxBase
 		this.gfxObjects["bar_defense"].max = getLevelMax(this.characterObj.points.defense);
 		if (this.characterObj.equipment.shield)
 		{
-			this.gfxObjects["label_defense"].text = "L" + getLevelFromExperiencePoints(this.characterObj.points.defense) + " " + this.characterObj.equipment.shield.baseDefenseMin + "-" + this.characterObj.equipment.shield.baseDefenseMax;
+			if (this.characterObj.equipment.shield.realDefenseMin == this.characterObj.equipment.shield.realDefenseMax)
+			{
+				this.gfxObjects["label_defense"].text = "L" + getLevelFromExperiencePoints(this.characterObj.points.defense) + " " + this.characterObj.equipment.shield.realDefenseMin;
+			}
+			else
+			{
+				this.gfxObjects["label_defense"].text = "L" + getLevelFromExperiencePoints(this.characterObj.points.defense) + " " + this.characterObj.equipment.shield.realDefenseMin + "-" + this.characterObj.equipment.shield.realDefenseMax;
+			}
 		}
 		else
 		{
@@ -183,7 +202,7 @@ class GfxCharacter extends GfxBase
 			return;
 		}
 		
-		if (_game.newClick)
+//		if (_game.newClick)
 		{
 			this.update();
 		}

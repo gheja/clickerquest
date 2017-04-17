@@ -15,7 +15,10 @@ class Beater
 		this.isStable = false;
 		this.isCalibrated = false;
 		this.beatStreak = 0;
+		this.lastProcessedBeatNumber = 0;
 		this.lastBeatStatus = "none";
+		this.beatTolerance = 150;
+		this.noEarlier = false;
 	}
 	
 	reset()
@@ -110,7 +113,7 @@ class Beater
 	
 	addBeat(t)
 	{
-//		console.log("add beat: " + t);
+// 		console.log("add," + t);
 		this.beats.push(t);
 	}
 	
@@ -133,49 +136,109 @@ class Beater
 	
 	getNearestBeat(t)
 	{
-		var i, a, b;
+		var i, a, b, obj;
 		
 		a = 5000;
+		
+		obj = null;
 		
 		for (i=0; i<this.beats.length; i++)
 		{
 			b = t - this.beats[i];
 			
+			if (this.noEarlier)
+			{
+				if (b < 0)
+				{
+					continue;
+				}
+			}
+			
 			if (Math.abs(b) < Math.abs(a))
 			{
 				a = b;
+				obj = { diff: b, time: this.beats[i], index: i };
 			}
 		}
 		
-		return a;
+		return obj;
+	}
+	
+	getNearestBeatStatus()
+	{
+		let obj;
+		
+		obj = this.getNearestBeat(_game.getTime() - this.soundCorrection);
+		
+		if (obj == null)
+		{
+			return BEAT_STATUS_NONE;
+		}
+		
+		if (this.lastProcessedBeatNumber >= obj.index)
+		{
+			return BEAT_STATUS_PROCESSED;
+		}
+		
+		if (obj.diff < -this.beatTolerance)
+		{
+			return BEAT_STATUS_COMING;
+		}
+		
+		if (obj.diff > this.beatTolerance)
+		{
+			return BEAT_STATUS_MISSED;
+		}
+		
+		return BEAT_STATUS_ONGOING;
+	}
+	
+	markNearestBeatProcessed()
+	{
+		let obj;
+		
+		obj = this.getNearestBeat(_game.getTime() - this.soundCorrection);
+		
+		if (obj == null)
+		{
+			return;
+		}
+		
+		this.lastProcessedBeatNumber = obj.index;
 	}
 	
 	userBeat()
 	{
 		let a, t;
 		
-		t = _game.getTime() - this.soundCorrection;
+		// t = _game.getTime() - this.soundCorrection;
+		t = _game.getTime();
+		
+		// console.log("user," + t);
 		
 		a = this.getNearestBeat(t);
-		console.log("user beat: " + t + " (" + Math.abs(a) + " " + (a < 0 ? "earlier" : "later") + ")");
 		
-		if (Math.abs(a) < 100)
+		if (a == null)
+		{
+			return;
+		}
+		
+		// console.log("user beat: " + t + " (" + Math.round(Math.abs(a.diff)) + " ms " + (a.diff < 0 ? "earlier" : "later") + ")");
+		
+		if (Math.abs(a.diff) < 100)
 		{
 			this.beatStreak++;
-			this.lastBeatStatus = "matched";
-			console.log("* match *");
 		}
 		else
 		{
 			this.beatStreak = 0;
-			this.lastBeatStatus = "matched";
 		}
 		
-		if (a == 5000)
+		if (a.diff == 5000)
 		{
 			return;
 		}
-		this.lastDifferences.push(a);
+		this.lastDifferences.push(a.diff);
 		this.update();
 	}
 }

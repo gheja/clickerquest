@@ -12,11 +12,12 @@ class GfxBase
 		this.clickable = false;
 		this.isMouseOver = false;
 		this.hidden = false;
+		this.tooltip = "";
 	}
 	
 	checkRectangle(x, y)
 	{
-		if (x >= this.x && y >= this.y && x < this.x + this.width && y < this.y + this.height && this.clickable)
+		if (x >= this.x && y >= this.y && x < this.x + this.width && y < this.y + this.height)
 		{
 			return true;
 		}
@@ -26,7 +27,7 @@ class GfxBase
 	
 	checkClick(x, y)
 	{
-		if (this.checkRectangle(x, y))
+		if (this.clickable && this.checkRectangle(x, y))
 		{
 			return true;
 		}
@@ -49,9 +50,12 @@ class GfxBase
 	
 	checkHover(x, y)
 	{
-		
 		if (this.checkRectangle(x, y))
 		{
+			if (this.tooltip != "")
+			{
+				_game.commonObjects["tooltip"].show(this.tooltip, this);
+			}
 			this.isMouseOver = true;
 			return true;
 		}

@@ -10,6 +10,8 @@ class GfxBar extends GfxBase
 		this.value = nvl(value, 50);
 		this.type = nvl(type, 1);
 		this.clickCallback = null;
+		
+		this.animationValue = 0;
 	}
 	
 	click()
@@ -17,11 +19,33 @@ class GfxBar extends GfxBase
 		
 	}
 	
+	animationOverflowTop()
+	{
+		this.animationValue = this.max;
+	}
+	
+	animationOverflowBottom()
+	{
+		this.animationValue = 0;
+	}
+	
 	draw()
 	{
-		let a, z;
+		let a, b, z;
 		
-		a = Math.max(Math.min(this.value / this.max, 1), 0);
+		b = (this.value - this.animationValue) * 0.33;
+		
+		if (round2(b) == 0)
+		{
+			this.animationValue = this.value;
+		}
+		else
+		{
+			this.animationValue += b;
+		}
+		
+		// a = Math.max(Math.min(this.value / this.max, 1), 0);
+		a = Math.max(Math.min(this.animationValue / this.max, 1), 0);
 		
 		if (this.type == 1)
 		{

@@ -8,21 +8,8 @@
 
 var LOCAL_STORAGE_PREFIX = "a";
 var FONT_NAME = "tinyunicodemedium";
-var CHARACTER_LEVELS = [
-	0,
-	150 * Math.pow(2, 0),
-	150 * Math.pow(2, 1),
-	150 * Math.pow(2, 2),
-	150 * Math.pow(2, 3),
-	150 * Math.pow(2, 4),
-	150 * Math.pow(2, 5),
-	150 * Math.pow(2, 6),
-	150 * Math.pow(2, 7),
-	150 * Math.pow(2, 8)
-];
-
-var WEAPON_CLASS_ONE_HANDED = 1;
-var WEAPON_CLASS_TWO_HANDED = 2;
+var WEAPON_CLASS_SWORD = 1;
+var WEAPON_CLASS_OTHERS = 2;
 var ITEM_CLASS_WEAPON = 1;
 var ITEM_CLASS_SHIELD = 2;
 var PLACES = [
@@ -32,3 +19,9 @@ var PLACES = [
 		"background": ""
 	}
 ];
+
+var BEAT_STATUS_NONE = 1;
+var BEAT_STATUS_COMING = 2;
+var BEAT_STATUS_ONGOING = 3;
+var BEAT_STATUS_MISSED = 4;
+var BEAT_STATUS_PROCESSED = 5;
