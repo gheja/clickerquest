@@ -6,6 +6,8 @@ class GfxBase
 	{
 		this.x = x;
 		this.y = y;
+		this.padX = 0;
+		this.padY = 0;
 		this.width = width;
 		this.height = height;
 		this.clickCallback = null;
@@ -17,7 +19,7 @@ class GfxBase
 	
 	checkRectangle(x, y)
 	{
-		if (x >= this.x && y >= this.y && x < this.x + this.width && y < this.y + this.height)
+		if (x >= (this.x + this.padX) && y >= (this.y + this.padY) && x < (this.x + this.padX + this.width) && y < (this.y + this.padY + this.height))
 		{
 			return true;
 		}
