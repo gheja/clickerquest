@@ -28,6 +28,7 @@ class SoundManager
 		this.beatLookAheadTime = 3000; // milliseconds
 		this.beatLookAheadSamples = Math.floor(this.beatLookAheadTime / 1000 * 44100);
 		this.beatLookAheadSamplePosition = 0;
+		this.songStartedAtSample = 0;
 	}
 	
 	onAssetFormat(a)
@@ -114,7 +115,7 @@ class SoundManager
 			b = this.beatLookAheadSamplePosition;
 			while (b < this.totalPositionSamples + this.beatLookAheadSamples)
 			{
-				c = b % this.currentSong.length;
+				c = (b - this.songStartedAtSample) % this.currentSong.length;
 				
 				if (this.currentSong.beatsOnSamples.indexOf(c) !== -1)
 				{
@@ -143,6 +144,7 @@ class SoundManager
 		{
 			this.currentSong = this.sounds[songId];
 			this.currentSong.position = 0;
+			this.songStartedAtSample = this.totalPositionSamples;
 		}
 //		this.startTime = null;
 	}
