@@ -243,9 +243,9 @@ class ScreenPlace extends Screen2
 			this.objects["character_hero" + i + "_placeholder"].y = this.objects["character_hero" + i].y;
 		}
 		
-		this.objects["label_guy"] = new GfxLabel(3, 116, "left", "Some wants to join your party.");
+		this.objects["label_guy"] = new GfxLabel(3, 99, "left", "Some wants to join your party.");
 		this.objects["label_guy"].border = true;
-		this.objects["button_guy"] = new GfxButton(2, 117, 40, "Okay!", this.clickGuyButton.bind(this));
+		this.objects["button_guy"] = new GfxButton(2, 101, 40, "Okay!", this.clickGuyButton.bind(this));
 	}
 	
 	tick()
