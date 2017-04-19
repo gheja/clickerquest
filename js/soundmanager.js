@@ -139,7 +139,7 @@ class SoundManager
 		{
 			this.currentSong = null;
 		}
-		else if (songId != this.currentSong)
+		else if (this.sounds[songId] != this.currentSong)
 		{
 			this.currentSong = this.sounds[songId];
 			this.currentSong.position = 0;
